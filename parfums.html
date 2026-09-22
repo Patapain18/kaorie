@@ -1835,28 +1835,42 @@ body.has-top-grid .bottle-card .product-img { aspect-ratio: 3 / 4.2; }
     <!-- /feuille:catalog -->
     <script>
         /* ==============================================================
-           CONTRÔLE DES FEUILLES DE STYLE
-           Les feuilles sont maintenant écrites dans la page (voir
-           outils/inclure_css.py) : il n'y a plus de fichier à aller
-           chercher, donc plus de copie abîmée possible. On garde un
-           contrôle : chaque feuille finit par un témoin `--feuille-<nom>`,
-           et si un témoin manque, on redemande la feuille au serveur en
-           court-circuitant le cache.
-           ?diag=1 à la fin de l'adresse affiche ce que le navigateur a
-           réellement chargé.
+           CONTRÔLE DE LA PAGE
+           Les feuilles de style sont écrites dans la page (voir
+           outils/inclure_css.py) et chacune finit par un témoin
+           `--feuille-<nom>`. Si un témoin manque, c'est que le navigateur
+           n'affiche pas la page telle qu'elle est sur le serveur : il
+           ressert une vieille copie gardée en mémoire. On le corrige en
+           deux temps :
+             1. une fois par visite, on recharge la page sous une adresse
+                que son cache ne connaît pas (?frais=…), ce qui l'oblige à
+                la redemander au serveur ;
+             2. si ça ne suffit pas, on affiche un état des lieux — et
+                ?diag=1 l'affiche à la demande.
            ============================================================== */
         (function () {
-            var reparees = {}, journal = [];
+            var CLEF = 'kaorie-fraicheur', journal = [], reparees = {};
             function temoin(nom) { return getComputedStyle(document.documentElement).getPropertyValue('--feuille-' + nom).trim(); }
             function feuilles() {
                 return [].map.call(document.querySelectorAll('style[data-feuille], link[rel="stylesheet"][href*="css/"]'), function (e) {
                     return e.getAttribute('data-feuille') || e.getAttribute('href').split('/').pop().split('.')[0];
-                });
+                }).filter(function (n) { return n.indexOf('-repare') < 0; });
             }
-            function reparer(nom) {
+            function manquantes() { return feuilles().filter(function (n) { return temoin(n) !== 'ok'; }); }
+
+            function redemanderLaPage() {
+                var deja = sessionStorage.getItem(CLEF);
+                if (deja) { journal.push('page déjà redemandée à ' + deja + ' : le cache résiste'); return false; }
+                sessionStorage.setItem(CLEF, new Date().toLocaleTimeString());
+                var p = new URLSearchParams(location.search);
+                p.set('frais', Date.now());
+                location.replace(location.pathname + '?' + p.toString() + location.hash);
+                return true;
+            }
+
+            function redemanderLaFeuille(nom) {
                 reparees[nom] = true;
                 var adresse = 'css/' + nom + '.css?r=' + Date.now();
-                journal.push(nom + ' : témoin absent → on redemande ' + adresse);
                 fetch(adresse, { cache: 'reload' })
                     .then(function (r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); })
                     .then(function (css) {
@@ -1864,34 +1878,38 @@ body.has-top-grid .bottle-card .product-img { aspect-ratio: 3 / 4.2; }
                         style.setAttribute('data-feuille', nom + '-repare');
                         style.textContent = css.replace(/url\('\.\.\/images\//g, "url('images/");
                         document.head.appendChild(style);
-                        journal.push(nom + ' : rechargée (' + Math.round(css.length / 1024) + ' Ko) et posée dans la page');
+                        journal.push(nom + ' : feuille redemandée au serveur et posée dans la page');
                     })
                     .catch(function (e) { journal.push(nom + ' : impossible de recharger (' + e + ')'); });
             }
-            function verifier() {
-                feuilles().forEach(function (nom) {
-                    if (reparees[nom] || temoin(nom) === 'ok') return;
-                    reparer(nom);
-                });
-            }
-            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', verifier);
-            else verifier();
-            setTimeout(verifier, 1500);
 
-            if (/[?&]diag=1/.test(location.search)) setTimeout(function () {
-                var lignes = ['PAGE : ' + location.pathname.split('/').pop() + '  (' + document.documentElement.outerHTML.length + ' octets de HTML)'];
-                feuilles().forEach(function (n) { lignes.push('feuille ' + n + ' → témoin = ' + (temoin(n) || 'ABSENT')); });
+            function etatDesLieux() {
+                var lignes = ['KAORIE — état des lieux',
+                              'page : ' + location.pathname.split('/').pop() + location.search,
+                              'reçue : ' + Math.round(document.documentElement.outerHTML.length / 1024) + ' Ko de HTML'];
+                feuilles().forEach(function (n) { lignes.push('feuille ' + n + ' → ' + (temoin(n) || 'TÉMOIN ABSENT')); });
                 for (var i = 0; i < document.styleSheets.length; i++) {
                     var f = document.styleSheets[i], nb;
                     try { nb = f.cssRules.length + ' règles'; } catch (e) { nb = 'INACCESSIBLE'; }
-                    lignes.push('chargée ' + ((f.href || 'dans la page').split('/').pop()) + ' → ' + nb);
+                    lignes.push((f.href ? f.href.split('/').pop() : 'écrite dans la page') + ' → ' + nb);
                 }
-                lignes = lignes.concat(journal.length ? journal : ['contrôle : rien à réparer']);
+                lignes = lignes.concat(journal.length ? journal : ['rien à signaler']);
                 var d = document.createElement('div');
                 d.style.cssText = 'position:fixed;inset:auto 10px 10px 10px;z-index:99999;background:#111;color:#0f0;font:12px/1.5 ui-monospace,monospace;padding:12px 14px;border-radius:10px;white-space:pre-wrap;max-height:60vh;overflow:auto';
                 d.textContent = lignes.join('\n');
                 document.body.appendChild(d);
-            }, 2500);
+            }
+
+            function verifier(derniere) {
+                var absentes = manquantes();
+                if (absentes.length && redemanderLaPage()) return;      // on repart sur une page fraîche
+                absentes.forEach(function (n) { if (!reparees[n]) redemanderLaFeuille(n); });
+                if (derniere && (absentes.length || /[?&]diag=1/.test(location.search))) etatDesLieux();
+            }
+
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { verifier(false); });
+            else verifier(false);
+            setTimeout(function () { verifier(true); }, 2500);
         })();
     </script>
 </head>
