@@ -8,7 +8,9 @@ Projet d'école (BUT MMI, IUT de Blois, 2026), réalisé en binôme par
 **Léa Devallez** (panier, recherche).
 
 Ce dépôt contient le front : HTML, CSS et JavaScript écrits à la main, sans
-framework. Le back-office (PHP, Twig, MySQL) n'est pas publié ici.
+framework. Les styles s'écrivent dans `css/*.css`, puis
+`python3 outils/inclure_css.py` les recopie dans les pages (voir
+`outils/README.md`). Le back-office (PHP, Twig, MySQL) n'est pas publié ici.
 
 Site : https://patapain18.github.io/kaorie/
 

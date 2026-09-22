@@ -38,3 +38,25 @@ python3 outils/finir.py
 
 `--rapide` après `--` chez Blender rend en demi-résolution, pour vérifier une
 composition ; un ou plusieurs noms de produits limitent le rendu à ceux-là.
+
+
+## Les feuilles de style sont posées dans les pages
+
+Depuis le 22/09/2026, les pages ne vont plus chercher `css/*.css` : le CSS
+est écrit directement dans chaque page (un `<style>` par feuille). Raison :
+sur le Mac de Mathis, Safari resservait une copie inutilisable de la feuille
+propre à la page — le site s'affichait sans mise en page, et le serveur,
+lui, était irréprochable (vérifié dans toutes les compressions, et dans un
+moteur Safari au cache vierge).
+
+**Les fichiers `css/*.css` restent la source : c'est là qu'on écrit.** Après
+chaque modification :
+
+```bash
+python3 outils/inclure_css.py
+```
+
+Le script recopie le contenu à jour dans les douze pages, entre les repères
+`<!-- feuille:nom -->` et `<!-- /feuille:nom -->`, et corrige au passage les
+chemins d'images (`../images/…` devient `images/…`, puisque la page est à la
+racine et non dans `css/`).

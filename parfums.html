@@ -5,28 +5,1854 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parfum — Kaorie</title>
     <link rel="icon" href="images/logo.png?v=20260922">
-    <link rel="stylesheet" href="css/common.css?v=20260922">
-    <link rel="stylesheet" href="css/catalog.css?v=20260922">
+    <!-- feuille:common -->
+    <style data-feuille="common">
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+
+/* ======================================================================
+   1. VARIABLES & POLICES
+   Palette de couleurs, ombres, transitions, radius
+   =================================================================== */
+
+:root {
+    --cream:        #fef6e9;
+    --cream-warm:   #fbe9c8;
+    --cream-deep:   #f5dcae;
+    --ink:          #1a1410;
+    --ink-soft:     #4a3a30;
+
+    --peach:        #ff9b85;
+    --peach-dark:   #e87862;
+    --citron:       #ffd84f;
+    --citron-dark:  #f0b800;
+    --forest:       #0a4f3c;
+    --forest-light: #1e6b54;
+    --lavender:     #c4a7e7;
+    --lavender-dark:#9d7dc4;
+    --orange:       #ff7849;
+    --pink-soft:    #ffd3c8;
+
+    --shadow-sm:    0 3px 12px rgba(26,20,16,0.08);
+    --shadow-md:    0 10px 30px rgba(26,20,16,0.12);
+    --shadow-lg:    0 25px 60px rgba(26,20,16,0.18);
+    --shadow-pop:   0 0 0 3px var(--ink), 8px 8px 0 0 var(--ink);
+
+    --transition:      0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-fast: 0.25s ease;
+
+    --radius-sm: 12px;
+    --radius-md: 24px;
+    --radius-lg: 40px;
+    --radius-pill: 100px;
+}
+
+
+/* ======================================================================
+   2. RESET & BASE
+   Reset universel + styles body, liens, boutons
+   =================================================================== */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+}
+
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+
+/* ======================================================================
+   3. TYPOGRAPHY
+   Titres avec police Fraunces
+   =================================================================== */
+
+h1, h2, h3, h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 0;
+}
+
+h1 em, h2 em { font-style: italic; font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1; }
+
+
+/* ======================================================================
+   4. ANIMATIONS PARTAGÉES
+   Keyframes utilisés sur plusieurs pages
+   =================================================================== */
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideInRight { from { transform: translateX(110%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes float { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-15px) rotate(5deg); } }
+@keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes wiggle { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+
+/* ======================================================================
+   5. LOADER D'INTRO
+   Écran d'accueil au chargement (style Ciao Kombucha)
+   =================================================================== */
+
+.loader-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--peach);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.loader-screen.hide {
+    transform: translateY(-100%);
+}
+
+html.loader-skip .loader-screen { display: none !important; }
+
+.loader-greeting {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.loader-logo {
+    position: relative;
+    display: inline-block;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 800;
+    font-size: clamp(100px, 24vw, 320px);
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    text-align: center;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+
+    color: rgba(26, 20, 16, 0.12);
+
+    animation: fadeInUp 0.9s 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.loader-logo::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--loader-progress, 0%);
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--ink);
+
+    font-family: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    font-variation-settings: inherit;
+
+    transition: width 0.18s linear;
+    pointer-events: none;
+}
+
+.loader-tagline {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.7;
+    animation: fadeIn 0.6s 0.4s both;
+}
+
+.loader-sparkle {
+    position: absolute;
+    color: var(--ink);
+    animation: spin 7s linear infinite;
+}
+
+.loader-sparkle.ls1 { top: 12%; right: 12%; font-size: 36px; }
+.loader-sparkle.ls2 { top: 18%; left: 14%; font-size: 24px; animation-duration: 9s; }
+.loader-sparkle.ls3 { bottom: 22%; right: 22%; font-size: 30px; animation-duration: 11s; }
+.loader-sparkle.ls4 { top: 50%; right: 6%; font-size: 20px; animation-duration: 6s; }
+
+html.loader-active, html.loader-active body { overflow: hidden; height: 100%; }
+
+
+/* ======================================================================
+   17. RESPONSIVE
+   Adaptations pour tablettes et mobile
+   =================================================================== */
+
+@media (max-width: 700px) {
+    .loader-counter { left: 25px; bottom: 25px; }
+    .loader-tagline { right: 25px; bottom: 30px; font-size: 11px; }
+    .loader-sparkle.ls1, .loader-sparkle.ls3 { font-size: 22px; }
+}
+
+
+/* ======================================================================
+   6. SEARCH DROPDOWN
+   Recherche progressive avec clip-path (effet liquid glass)
+   =================================================================== */
+
+.search-overlay {
+    position: fixed;
+    top: 42px;            
+    left: 150px;          
+    z-index: 90;          
+    width: min(340px, calc(100vw - 540px));
+
+    transform: translateX(-15px);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.3s ease;
+}
+
+.search-overlay.open {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.search-input-wrap {
+    position: relative;
+
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.15),
+        0 8px 24px rgba(26, 20, 16, 0.12);
+
+    clip-path: inset(0 100% 0 0 round 100px);
+    transition: clip-path 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.search-overlay.open .search-input-wrap {
+    clip-path: inset(0 0 0 0 round 100px);
+}
+
+.search-input {
+    width: 100%;
+    padding: 11px 26px 11px 50px;  
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    border-radius: 100px;
+    outline: none;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+
+    opacity: 0;
+    transition: opacity 0.3s 0.35s;
+}
+
+.search-overlay.open .search-input {
+    opacity: 1;
+}
+
+.search-input::placeholder {
+    color: var(--ink-soft);
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.search-results {
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 12px 35px rgba(26, 20, 16, 0.15);
+    overflow: hidden;
+    max-height: 60vh;
+    overflow-y: auto;
+
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.3s 0.4s, transform 0.3s 0.4s;
+}
+
+.search-results:empty {
+    display: none;
+}
+
+.search-overlay.open .search-results:not(:empty) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.search-results:empty {
+    display: none;
+}
+
+.search-count {
+    padding: 12px 24px 8px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.search-count em {
+    color: var(--peach-dark);
+    font-weight: 600;
+    font-style: italic;
+}
+
+.search-result-item {
+    display: block;
+    padding: 13px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    color: var(--ink);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    animation: fadeInDown 0.3s ease-out both;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.search-result-item:last-child { border-bottom: none; }
+
+.search-result-item:hover {
+    background: rgba(255, 155, 133, 0.18);
+    padding-left: 32px;
+}
+
+.search-result-item .name {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.2;
+}
+
+.search-result-item .meta {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 3px;
+}
+
+.search-no-results {
+    padding: 30px 24px;
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .search-overlay {
+        width: calc(100vw - 30px);
+        top: 75px;
+    }
+}
+
+
+/* ======================================================================
+   7. MENU BURGER OVERLAY
+   Panneau de navigation alternative
+   =================================================================== */
+
+.menu-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(254, 246, 233, 0.7);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-panel.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.menu-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 6px 20px rgba(26, 20, 16, 0.1);
+    font-size: 22px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.menu-close:hover {
+    background: var(--peach);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+}
+
+.menu-nav a {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(36px, 6vw, 78px);
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+    line-height: 1.1;
+    padding: 4px 16px;
+    position: relative;
+    transition: color 0.3s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.menu-panel.open .menu-nav a {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s;
+}
+
+.menu-panel.open .menu-nav a:nth-child(1) { transition-delay: 0.15s; }
+.menu-panel.open .menu-nav a:nth-child(2) { transition-delay: 0.22s; }
+.menu-panel.open .menu-nav a:nth-child(3) { transition-delay: 0.29s; }
+.menu-panel.open .menu-nav a:nth-child(4) { transition-delay: 0.36s; }
+.menu-panel.open .menu-nav a:nth-child(5) { transition-delay: 0.43s; }
+.menu-panel.open .menu-nav a:nth-child(6) { transition-delay: 0.50s; }
+.menu-panel.open .menu-nav a:nth-child(7) { transition-delay: 0.57s; }
+
+.menu-nav a:hover {
+    color: var(--peach-dark);
+    transform: translateY(-3px) rotate(-1deg) !important;
+}
+
+.menu-panel .menu-sparkle {
+    position: absolute;
+    color: var(--ink);
+    animation: spin 8s linear infinite;
+    opacity: 0.5;
+}
+.menu-panel .menu-sparkle.ms1 { top: 15%; left: 12%; font-size: 30px; }
+.menu-panel .menu-sparkle.ms2 { bottom: 18%; right: 15%; font-size: 24px; animation-duration: 10s; }
+.menu-panel .menu-sparkle.ms3 { top: 25%; right: 18%; font-size: 20px; animation-duration: 12s; }
+
+html.menu-open, html.menu-open body { overflow: hidden; }
+
+.icon-btn.menu-toggle.active { background: var(--peach); }
+
+.icon-btn#music-toggle.playing,
+#music-toggle.playing {
+    background: rgba(255, 155, 133, 0.6);
+    border-color: rgba(255, 255, 255, 0.55);
+    color: var(--ink);
+    animation: pulse 1.5s ease-in-out infinite;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 0 0 0 rgba(255, 155, 133, 0.7),
+        0 6px 20px rgba(255, 120, 73, 0.25);
+}
+
+#music-toggle.playing::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    border: 2px solid var(--peach);
+    animation: pulse-ring 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    pointer-events: none;
+}
+
+@keyframes pulse-ring {
+    0%   { transform: scale(1);   opacity: 0.8; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+
+/* ======================================================================
+   8. HEADER (sticky)
+   Barre de navigation principale collée en haut
+   =================================================================== */
+
+.header {
+    position: sticky;
+    top: 15px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    animation: fadeIn 0.6s ease-out both;
+}
+
+.header-left { display: flex; align-items: center; gap: 12px; }
+
+.logo {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+    padding: 6px 16px;
+    border-radius: 100px;
+
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 6px 20px rgba(26, 20, 16, 0.08);
+
+    transition: all var(--transition);
+}
+
+.logo:hover {
+    transform: rotate(-3deg) scale(1.05);
+    background: rgba(255, 255, 255, 0.32);
+}
+
+.logo span { color: var(--peach); }
+
+.search-icon, .icon-btn {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: var(--ink);
+
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.15),
+        0 6px 20px rgba(26, 20, 16, 0.08);
+
+    transition: all var(--transition);
+}
+
+.search-icon:hover, .icon-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 10px 30px rgba(26, 20, 16, 0.12);
+}
+
+.header-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 1;
+}
+
+.header-center a {
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    white-space: nowrap;
+
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.15),
+        0 6px 18px rgba(26, 20, 16, 0.08);
+
+    transition: all var(--transition);
+}
+
+.header-center a:hover {
+    background: var(--peach);
+    border-color: rgba(255, 255, 255, 0.7);
+    transform: translateY(-2px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 10px 25px rgba(255, 120, 73, 0.25);
+}
+
+@media (max-width: 900px) {
+    .header-center { display: none; }
+}
+
+.header-right { display: flex; align-items: center; gap: 12px; }
+
+.contact-btn {
+    padding: 10px 22px;
+    border-radius: var(--radius-pill);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.15),
+        0 6px 20px rgba(26, 20, 16, 0.08);
+
+    transition: all var(--transition);
+}
+
+.contact-btn:hover {
+    
+    background: radial-gradient(circle at 30% 30%, rgba(255, 155, 133, 0.85) 0%, rgba(255, 120, 73, 0.6) 100%);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 10px 30px rgba(255, 120, 73, 0.25);
+}
+
+
+/* ======================================================================
+   10. ICÔNE LOCALISATION
+   Bouton 📍 fixed avec pulse-ring décoratif
+   =================================================================== */
+
+.location-icon {
+    position: fixed;
+    right: 30px;
+    top: 100px;
+    z-index: 99;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 155, 133, 0.4);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 10px 30px rgba(255, 120, 73, 0.2);
+
+    transition: all var(--transition);
+    animation: float 4s ease-in-out infinite;
+}
+
+.location-icon:hover {
+    transform: scale(1.15) rotate(-10deg);
+    background: rgba(255, 216, 79, 0.5); 
+}
+
+
+/* ======================================================================
+   9. MAIN (layout)
+   Conteneur principal et utilitaires de mise en page
+   =================================================================== */
+
+.main {
+    padding: 50px 40px 140px;
+    min-height: calc(100vh - 130px);
+    position: relative;
+}
+
+.page-title {
+    text-align: center;
+    font-size: clamp(60px, 10vw, 130px);
+    margin-bottom: 50px;
+    letter-spacing: -0.04em;
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.page-title em { color: var(--peach); }
+
+.cart-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 20, 16, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.cart-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* ======================================================================
+   11. DRAWER PANIER
+   Panneau glissant depuis la droite (Léa)
+   =================================================================== */
+
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 420px;
+    max-width: 92vw;
+    height: 100vh;
+    background: var(--cream);
+    border-left: 2px solid var(--ink);
+    box-shadow: -8px 0 30px rgba(26, 20, 16, 0.25);
+    padding: 60px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.cart-drawer.open {
+    transform: translateX(0);
+}
+
+.cart-drawer-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cart-drawer-close:hover {
+    background: var(--peach);
+    transform: rotate(90deg);
+}
+
+.cart-clear-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1.5px solid var(--ink-soft);
+    border-radius: var(--radius-pill);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+.cart-clear-btn:hover {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+}
+
+.cart-drawer .cart-items {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.cart-item-engraving {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--peach-dark);
+    letter-spacing: 0.02em;
+}
+.cart-item-engraving::before {
+    content: "✦";
+    font-size: 11px;
+    color: var(--peach-dark);
+}
+
+
+/* ======================================================================
+   12. MODAL DE GRAVURE
+   Personnalisation des flacons (Mathis)
+   =================================================================== */
+
+.engraving-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 460px;
+    max-width: 92vw;
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-md);
+    box-shadow: 8px 8px 0 0 var(--ink);
+    padding: 50px 36px 36px;
+    z-index: 110;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.engraving-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.engraving-modal .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.engraving-modal .modal-close:hover {
+    background: var(--peach);
+    transform: rotate(90deg);
+}
+
+.engraving-modal h3 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 8px;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+}
+
+.engraving-modal .modal-desc {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.engraving-preview {
+    background: linear-gradient(135deg, #f5e9d0 0%, #ffe6b8 100%);
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-sm);
+    padding: 24px 16px;
+    text-align: center;
+    margin-bottom: 22px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 2px 8px rgba(26, 20, 16, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.engraving-preview::before {
+    content: "✦";
+    position: absolute;
+    top: 10px;
+    left: 14px;
+    font-size: 12px;
+    color: var(--peach-dark);
+    opacity: 0.5;
+}
+.engraving-preview::after {
+    content: "✦";
+    position: absolute;
+    bottom: 10px;
+    right: 14px;
+    font-size: 12px;
+    color: var(--peach-dark);
+    opacity: 0.5;
+}
+
+.engraving-preview-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    
+    text-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.5),
+        0 -1px 1px rgba(26, 20, 16, 0.25);
+    font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;
+    transition: opacity 0.3s ease;
+}
+
+.engraving-preview-text.placeholder {
+    opacity: 0.35;
+    font-style: italic;
+}
+
+.engraving-input-wrap {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.engraving-input {
+    width: 100%;
+    padding: 14px 60px 14px 18px;
+    background: var(--cream-warm);
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-pill);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink);
+    outline: none;
+    transition: all var(--transition-fast);
+}
+.engraving-input::placeholder {
+    color: var(--ink-soft);
+    opacity: 0.5;
+}
+.engraving-input:focus {
+    border-color: var(--peach-dark);
+    box-shadow: 0 0 0 3px rgba(255, 155, 133, 0.2);
+}
+
+.engraving-input-wrap .char-count {
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--ink-soft);
+    pointer-events: none;
+}
+
+.engraving-modal .modal-confirm {
+    width: 100%;
+    padding: 16px;
+    
+    background: linear-gradient(135deg, #1a1410 0%, #2a221c 100%);
+    color: var(--cream);
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-pill);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+.engraving-modal .modal-confirm:hover {
+    
+    background: radial-gradient(circle at 50% 50%, var(--peach) 0%, #ff9b85 100%);
+    color: var(--ink);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 0 var(--ink);
+}
+.engraving-modal .modal-confirm:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+
+/* ======================================================================
+   13. BANDEAU COOKIES
+   Apparition 1s + flou si refus (SAE 203 obligatoire)
+   =================================================================== */
+
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, rgba(254, 246, 233, 0.97) 0%, var(--cream) 100%);
+    border-top: 2px solid var(--ink);
+    box-shadow: 0 -8px 30px rgba(26, 20, 16, 0.15);
+    padding: 24px 36px;
+    z-index: 200;
+    transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+.cookie-banner.show {
+    transform: translateY(0);
+}
+
+.cookie-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.5;
+    flex: 1;
+    min-width: 280px;
+}
+.cookie-text strong {
+    font-weight: 700;
+    color: var(--peach-dark);
+    font-style: normal;
+}
+
+.cookie-options {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.cookie-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px 18px;
+    border-radius: 50px;
+    border: 1.5px solid var(--ink);
+    background: var(--cream);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    transition: all var(--transition-fast);
+    user-select: none;
+}
+.cookie-option:hover {
+    background: var(--peach);
+    transform: translate(-2px, -2px);
+    box-shadow: 3px 3px 0 0 var(--ink);
+}
+.cookie-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--peach-dark);
+    cursor: pointer;
+}
+
+body.cookies-refused .main,
+body.cookies-refused .header,
+body.cookies-refused .footer-nav,
+body.cookies-refused .location-icon,
+body.cookies-refused .video-bg,
+body.cookies-refused .video-overlay,
+body.cookies-refused .hero-bg,
+body.cookies-refused .blob {
+    filter: blur(6px) contrast(0.4) saturate(0.3) brightness(0.8);
+    transition: filter 0.8s ease;
+}
+body.cookies-refused .main,
+body.cookies-refused .header,
+body.cookies-refused .footer-nav {
+    pointer-events: none;        
+    user-select: none;
+}
+
+
+/* ======================================================================
+   14. ANIMATION CLIC BOUTON
+   btn-pop : agrandissement progressif au clic (SAE 203 point e)
+   =================================================================== */
+
+@keyframes btn-pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.12); }
+    100% { transform: scale(1); }
+}
+.btn-clicked {
+    animation: btn-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes btn-pop-centered {
+    0%   { transform: translateX(-50%) scale(1); }
+    50%  { transform: translateX(-50%) scale(1.12); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+.btn-clicked-centered {
+    animation: btn-pop-centered 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+
+/* ======================================================================
+   15. FOOTER NAV
+   Barre flottante en bas avec icônes principales
+   =================================================================== */
+
+.footer-nav {
+    position: fixed;
+    bottom: 30px;
+    
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: fit-content;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 50px;
+    z-index: 60;
+
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    border: 1.5px solid rgba(255, 255, 255, 0.75);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 15px 45px rgba(26, 20, 16, 0.22);
+
+    animation: fadeInUp 0.6s 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.footer-nav .icon-btn {
+    width: 62px;
+    height: 42px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(0, 0, 0, 0.18);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        0 2px 6px rgba(26, 20, 16, 0.05);
+    color: var(--ink);
+    transition: all var(--transition);
+}
+
+.footer-nav .icon-btn:hover {
+    background: var(--peach);
+    border-color: var(--ink);
+    color: var(--ink);
+    transform: translateY(-3px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 8px 22px rgba(255, 120, 73, 0.3);
+}
+
+.footer-nav .icon-btn svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* ======================================================================
+   16. BLOBS DÉCORATIFS
+   Cercles colorés flottants en fond
+   =================================================================== */
+
+.blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.blob.b1 { width: 400px; height: 400px; background: var(--peach); top: -100px; left: -100px; animation: float 12s ease-in-out infinite; }
+.blob.b2 { width: 350px; height: 350px; background: var(--lavender); bottom: -50px; right: -80px; animation: float 15s ease-in-out infinite reverse; }
+.blob.b3 { width: 250px; height: 250px; background: var(--citron); top: 50%; left: 50%; animation: float 10s ease-in-out infinite; }
+
+@media (max-width: 1100px) {
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .product-detail-wrap { padding: 20px 10px; }
+    .product-description-box {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        transform: none;
+        margin-top: 30px;
+    }
+    .cart-sidebar {
+        position: relative;
+        right: auto;
+        top: auto;
+        width: 100%;
+        max-width: 480px;
+        margin: 30px auto;
+    }
+}
+
+@media (max-width: 700px) {
+    .marquee-track span { font-size: 12px; padding: 0 15px; }
+    .header { padding: 15px 20px; top: 32px; }
+    .header-center { display: none; }
+    .contact-btn { display: none; }
+    .location-icon { top: auto; bottom: 100px; right: 20px; }
+    .main { padding: 30px 20px 140px; }
+    .page-title { font-size: 50px; margin-bottom: 30px; }
+    .hero { height: 65vh; }
+    .products-grid { grid-template-columns: 1fr; gap: 20px; }
+    .product-detail-carousel { gap: 15px; }
+    .product-detail-img { width: 240px; }
+    .arrow-nav { width: 50px; height: 50px; }
+    .form-container { padding: 30px 25px; }
+}
+
+/* ======================================================================
+   IMAGES DES PRODUITS
+   Une seule définition pour tout le site : la classe du produit
+   (`parfum-1`, `boisson-3`…) porte son image, où qu'elle soit posée —
+   vignette du catalogue, miniature d'une fiche, ligne du panier.
+   C'est ici, dans la feuille chargée par TOUTES les pages, parce que le
+   panier ne charge pas catalog.css : ses vignettes restaient vides.
+   Les couleurs de fond, elles, restent propres à chaque page.
+   =================================================================== */
+.parfum-1, .parfum-2, .parfum-3, .parfum-4,
+.boisson-1, .boisson-2, .boisson-3, .boisson-4 {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.parfum-1  { background-image: url('images/parfum-blanc-cut.png?v=20260922'); }
+.parfum-2  { background-image: url('images/parfum-jaune-cut.png?v=20260922'); }
+.parfum-3  { background-image: url('images/parfum-noir-cut.png?v=20260922'); }
+.parfum-4  { background-image: url('images/parfum-bleu-cut.png?v=20260922'); }
+.boisson-1 { background-image: url('images/boisson-gingembre-cut.png?v=20260922'); }
+.boisson-2 { background-image: url('images/boisson-menthe-cut.png?v=20260922'); }
+.boisson-3 { background-image: url('images/boisson-citron-cut.png?v=20260922'); }
+.boisson-4 { background-image: url('images/boisson-framboise-cut.png?v=20260922'); }
+
+
+/* ======================================================================
+   BOUTON DU MENU (petits écrans)
+   La navigation du haut (.header-center) disparaît sous 700 px ; sans ce
+   bouton, le panneau de menu existait dans la page mais rien ne pouvait
+   l'ouvrir — impossible d'aller aux Parfums ou aux Boissons au téléphone.
+   =================================================================== */
+.menu-toggle { display: none; }
+@media (max-width: 700px) {
+    .menu-toggle { display: inline-flex; align-items: center; justify-content: center; font-size: 18px; }
+}
+
+/* ======================================================================
+   SI LE VISITEUR A DEMANDÉ MOINS D'ANIMATIONS
+   (Réglages système → Accessibilité → Réduire les animations)
+   Vingt et un éléments du site arrivent par une animation en `both` :
+   ils commencent donc invisibles et ne deviennent visibles qu'une fois
+   l'animation jouée. Si quelque chose empêche cette animation, la page
+   paraît vide. Ici on coupe le mouvement mais on garde tout visible.
+   =================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ======================================================================
+   TÉMOIN DE FIN DE FICHIER
+   Dernière règle de la feuille : elle pose une variable. Le petit script
+   en tête de chaque page vérifie que la variable est là ; si elle manque,
+   c'est que le navigateur n'a pas la feuille en entier, et il la recharge.
+   Ne rien écrire après cette règle.
+   =================================================================== */
+:root { --feuille-common: ok; }
+
+    </style>
+    <!-- /feuille:common -->
+    <!-- feuille:catalog -->
+    <style data-feuille="catalog">
+
+
+/* ======================================================================
+   1. IMAGE DE FOND CATALOGUE
+   Fond des pages parfums/boissons/top-produits (palette de la marque)
+   =================================================================== */
+
+body.has-catalog-bg {
+    /* La photo de lac de la version d'origine (origine inconnue, donc pas de
+       licence) est remplacée par la palette de la marque : crème, pêche,
+       lavande, citron — les mêmes teintes que le héros et les blobs. */
+    background:
+        radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--peach) 55%, transparent) 0%, transparent 42%),
+        radial-gradient(circle at 85% 75%, color-mix(in srgb, var(--lavender) 60%, transparent) 0%, transparent 42%),
+        radial-gradient(circle at 55% 105%, color-mix(in srgb, var(--citron) 55%, transparent) 0%, transparent 38%),
+        var(--cream);
+    background-attachment: fixed;
+}
+
+body.has-catalog-bg .main {
+    padding-top: 12vh;       
+    padding-bottom: 180px;   
+}
+
+body.has-top-grid .main {
+    padding-top: 140px;
+    padding-bottom: 170px;
+}
+
+/* Huit produits = deux rangées. Le rang (#1…#8) et le nom sont posés
+   au-dessus de chaque carte : sans cette gouttière, ceux de la deuxième
+   rangée viendraient sur les bouteilles de la première. */
+body.has-top-grid .products-grid { row-gap: 120px; }
+body.has-top-grid .bottle-card .product-img { aspect-ratio: 3 / 4.2; }
+
+.bottles-grid .click-label { display: none; }
+
+
+/* ======================================================================
+   2. GRID CSS DES PRODUITS
+   Grille 4 colonnes (annexe 1 & 2 SAE 203)
+   =================================================================== */
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+
+/* ======================================================================
+   3. CARDS PRODUITS
+   Cards individuelles avec animation fadeInUp
+   =================================================================== */
+
+.product-card {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    animation: fadeInUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.product-card:nth-child(1) { animation-delay: 0.05s; }
+.product-card:nth-child(2) { animation-delay: 0.15s; }
+.product-card:nth-child(3) { animation-delay: 0.25s; }
+.product-card:nth-child(4) { animation-delay: 0.35s; }
+
+.product-card .click-label {
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 10px;
+    opacity: 0.6;
+    transition: opacity var(--transition-fast);
+}
+
+.product-card:hover .click-label { opacity: 1; }
+
+.product-img {
+    aspect-ratio: 3 / 5;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--ink);
+    transition: all var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 4px 0 0 var(--ink);
+}
+
+.product-card:hover .product-img {
+    transform: translate(-4px, -8px) rotate(-1deg);
+    box-shadow: 8px 12px 0 0 var(--ink);
+}
+
+.product-img .product-label {
+    position: relative;
+    z-index: 3;
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    text-align: center;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+}
+
+.product-img::after {
+    content: "✦";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
+    color: var(--ink);
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.product-card:hover .product-img::after { opacity: 1; animation: spin 4s linear infinite; }
+
+
+/* ======================================================================
+   6. PODIUM TOP 4 (badges #1 #2 #3 #4)
+   Badges absolute au-dessus des cards (Mathis)
+   =================================================================== */
+
+.top-card .top-rank {
+    position: absolute;
+    top: -90px;             
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 6px 18px;
+    border-radius: 50px;
+    border: 1.5px solid var(--ink);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 6px 18px rgba(26, 20, 16, 0.15);
+    z-index: 6;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    transition: all var(--transition);
+}
+
+.top-card:hover .top-rank {
+    background: var(--peach);
+    
+    transform: translate(-50%, -32px) scale(1.1) rotate(-3deg);
+}
+
+.top-card .bottle-name {
+    top: -38px !important;
+}
+
+.bottle-card .bottle-name {
+    position: absolute;
+    top: -35px;            
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 17px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    z-index: 4;
+    text-align: center;
+    white-space: nowrap;
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    border-radius: 50px;
+    transition: all var(--transition);
+}
+
+.parfum-3 .bottle-name {
+    color: var(--cream);
+    background: rgba(26, 20, 16, 0.45);
+}
+
+
+/* ======================================================================
+   4. STYLE FLACONS (style Ciao)
+   Animation bottle-float + hover scale/rotate
+   =================================================================== */
+
+.bottles-grid .bottle-card {
+    animation:
+        fadeInUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+        bottle-float 4s ease-in-out infinite;
+}
+
+.bottles-grid .bottle-card:nth-child(1) { animation-delay: 0.05s, 0s;    }
+.bottles-grid .bottle-card:nth-child(2) { animation-delay: 0.15s, 0.5s;  }
+.bottles-grid .bottle-card:nth-child(3) { animation-delay: 0.25s, 1s;    }
+.bottles-grid .bottle-card:nth-child(4) { animation-delay: 0.35s, 1.5s;  }
+.bottles-grid .bottle-card:nth-child(5) { animation-delay: 0.45s, 2s;    }
+.bottles-grid .bottle-card:nth-child(6) { animation-delay: 0.55s, 2.5s;  }
+.bottles-grid .bottle-card:nth-child(7) { animation-delay: 0.65s, 3s;    }
+.bottles-grid .bottle-card:nth-child(8) { animation-delay: 0.75s, 3.5s;  }
+
+@keyframes bottle-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+}
+
+.bottles-grid .bottle-card:hover .product-img {
+    transform: scale(1.06) translate(-4px, -10px) rotate(-2deg);
+    box-shadow: 12px 18px 0 0 var(--ink), 0 25px 50px rgba(26, 20, 16, 0.3);
+}
+
+.bottles-grid .bottle-card:hover .bottle-name {
+    background: var(--ink);
+    color: var(--cream);
+    transform: translateX(-50%) scale(1.08);
+}
+
+
+/* ======================================================================
+   5. COULEURS DES CARTES PRODUIT
+   Une couleur de fond par produit. L'image, elle, vient de common.css
+   (une seule définition pour tout le site, panier compris).
+   =================================================================== */
+
+.parfum-1 {
+    background-color: var(--peach);
+}
+.parfum-2 {
+    background-color: var(--citron);
+}
+.parfum-3 {
+    background-color: var(--lavender);
+}
+.parfum-4 {
+    background-color: #a8c7d8;  
+}
+
+.bottles-grid .product-img {
+    background-color: transparent !important;
+    background-size: contain;
+    background-position: center;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;   
+}
+
+.bottles-grid .product-img::before,
+.bottles-grid .product-img::after {
+    display: none !important;
+}
+
+.bottles-grid .bottle-card:hover .product-img {
+    box-shadow: none !important;
+}
+
+.boisson-1 {
+    background-color: var(--orange);
+}
+.boisson-2 {
+    background-color: #b8d97f;   
+}
+.boisson-3 {
+    background-color: var(--citron);
+}
+.boisson-4 {
+    background-color: #f5a3c7;   
+}
+
+.top-1     { background: var(--peach); }
+.top-2     { background: var(--citron); }
+.top-3     { background: var(--lavender); }
+.top-4     { background: #b8d97f; }
+
+
+/* ======================================================================
+   7. SÉLECTEUR DE THÈMES (SAE 203 annexe 2)
+   Tabs avec filtrage JS [Tous] [Parfums] [Boissons]
+   =================================================================== */
+
+.theme-section {
+    max-width: 1400px;
+    margin: 0 auto 30px;          
+}
+
+.theme-section-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 24px;              
+    font-weight: 700;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 12px;          
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+}
+
+.theme-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;          
+    flex-wrap: wrap;
+}
+
+.theme-tab {
+    padding: 12px 28px;
+    background: var(--cream);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-pill);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    letter-spacing: 0.02em;
+}
+.theme-tab:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 3px 3px 0 0 var(--ink);
+}
+.theme-tab.active {
+    
+    background: radial-gradient(circle at 30% 30%, var(--peach) 0%, #ff9b85 100%);
+    color: var(--ink);
+    box-shadow: 3px 3px 0 0 var(--ink);
+    transform: translate(-1px, -1px);
+}
+
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-bottom: 60px;
+}
+
+.theme-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--ink);
+    animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    cursor: pointer;
+}
+.theme-card:nth-child(1) { animation-delay: 0.05s; }
+.theme-card:nth-child(2) { animation-delay: 0.12s; }
+.theme-card:nth-child(3) { animation-delay: 0.19s; }
+.theme-card:nth-child(4) { animation-delay: 0.26s; }
+.theme-card:nth-child(5) { animation-delay: 0.33s; }
+.theme-card:nth-child(6) { animation-delay: 0.40s; }
+.theme-card:nth-child(7) { animation-delay: 0.47s; }
+.theme-card:nth-child(8) { animation-delay: 0.54s; }
+
+.theme-card .theme-card-img {
+    aspect-ratio: 3 / 5;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform var(--transition);
+}
+.theme-card:hover .theme-card-img {
+    transform: scale(1.05) rotate(-1deg);
+}
+
+.theme-grid .product-img {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+.theme-grid .product-img::before,
+.theme-grid .product-img::after {
+    display: none !important;
+}
+.theme-grid .bottle-card:hover .product-img {
+    box-shadow: none !important;
+}
+
+.theme-card .theme-card-name {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: center;
+    margin-top: 10px;
+    letter-spacing: 0.04em;
+}
+
+.theme-card .theme-card-cat {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--peach-dark);
+    text-align: center;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.top-section {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+
+/* ======================================================================
+   PETITS ÉCRANS
+   Cette feuille étant chargée après common.css, sa grille à 4 colonnes
+   l'emportait sur la règle « une colonne » de common.css : au téléphone,
+   les quatre bouteilles se retrouvaient à 80 px de large, leurs noms les
+   uns sur les autres. Deux colonnes, et les noms à leur taille.
+   =================================================================== */
+@media (max-width: 760px) {
+    /* Les noms (et les rangs #1…#4) sont posés AU-DESSUS de chaque carte :
+       il faut donc de la place entre les rangées, sinon le nom d'une
+       bouteille vient sur celle du dessus. */
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 52px 12px; }
+    .bottles-grid.products-grid { gap: 56px 12px; }
+    body.has-top-grid .products-grid { gap: 78px 12px; }
+    .bottles-grid { margin-top: 30px; }
+    .bottle-card .bottle-name { font-size: 13px; top: -24px; letter-spacing: 0; }
+    .top-card .top-rank { font-size: 16px; top: -58px; padding: 4px 12px; }
+    .top-card .bottle-name { top: -26px !important; }
+    body.has-catalog-bg .main { padding-top: 90px; padding-bottom: 150px; }
+    body.has-top-grid .main { padding-top: 110px; }
+}
+
+@media (max-width: 430px) {
+    .bottle-card .bottle-name { font-size: 11px; }
+}
+
+/* ======================================================================
+   TÉMOIN DE FIN DE FICHIER
+   Dernière règle de la feuille : elle pose une variable. Le petit script
+   en tête de chaque page vérifie que la variable est là ; si elle manque,
+   c'est que le navigateur n'a pas la feuille en entier, et il la recharge.
+   Ne rien écrire après cette règle.
+   =================================================================== */
+:root { --feuille-catalog: ok; }
+
+    </style>
+    <!-- /feuille:catalog -->
     <script>
         /* ==============================================================
-           GARDE-FOU DES FEUILLES DE STYLE
-           Un navigateur peut garder une copie inutilisable d'un CSS et la
-           resservir à chaque visite (vu sur Safari : la page s'affiche
-           alors sans mise en page). Chaque feuille se termine par une
-           variable témoin `--feuille-<nom>`. Si le témoin manque :
-             1. on redemande la feuille avec fetch(..., cache: 'reload'),
-                qui court-circuite le cache du navigateur, et on pose son
-                contenu directement dans la page ;
-             2. si fetch échoue, on retente avec un simple lien sous une
-                adresse neuve.
-           Ajouter ?diag=1 à l'adresse affiche ce que le navigateur a
-           réellement chargé — pratique pour comprendre un affichage raté.
+           CONTRÔLE DES FEUILLES DE STYLE
+           Les feuilles sont maintenant écrites dans la page (voir
+           outils/inclure_css.py) : il n'y a plus de fichier à aller
+           chercher, donc plus de copie abîmée possible. On garde un
+           contrôle : chaque feuille finit par un témoin `--feuille-<nom>`,
+           et si un témoin manque, on redemande la feuille au serveur en
+           court-circuitant le cache.
+           ?diag=1 à la fin de l'adresse affiche ce que le navigateur a
+           réellement chargé.
            ============================================================== */
         (function () {
             var reparees = {}, journal = [];
-            function nomDe(lien) { return lien.getAttribute('href').split('/').pop().split('.')[0]; }
             function temoin(nom) { return getComputedStyle(document.documentElement).getPropertyValue('--feuille-' + nom).trim(); }
-
+            function feuilles() {
+                return [].map.call(document.querySelectorAll('style[data-feuille], link[rel="stylesheet"][href*="css/"]'), function (e) {
+                    return e.getAttribute('data-feuille') || e.getAttribute('href').split('/').pop().split('.')[0];
+                });
+            }
             function reparer(nom) {
                 reparees[nom] = true;
                 var adresse = 'css/' + nom + '.css?r=' + Date.now();
@@ -35,47 +1861,32 @@
                     .then(function (r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); })
                     .then(function (css) {
                         var style = document.createElement('style');
-                        style.setAttribute('data-feuille', nom);
-                        style.textContent = css;
+                        style.setAttribute('data-feuille', nom + '-repare');
+                        style.textContent = css.replace(/url\('\.\.\/images\//g, "url('images/");
                         document.head.appendChild(style);
                         journal.push(nom + ' : rechargée (' + Math.round(css.length / 1024) + ' Ko) et posée dans la page');
                     })
-                    .catch(function (e) {
-                        journal.push(nom + ' : fetch impossible (' + e + '), on retente par un lien');
-                        var neuf = document.createElement('link');
-                        neuf.rel = 'stylesheet';
-                        neuf.href = adresse;
-                        document.head.appendChild(neuf);
-                    });
+                    .catch(function (e) { journal.push(nom + ' : impossible de recharger (' + e + ')'); });
             }
-
             function verifier() {
-                document.querySelectorAll('link[rel="stylesheet"][href*="css/"]').forEach(function (lien) {
-                    var nom = nomDe(lien);
+                feuilles().forEach(function (nom) {
                     if (reparees[nom] || temoin(nom) === 'ok') return;
                     reparer(nom);
                 });
             }
-
             if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', verifier);
             else verifier();
-            setTimeout(verifier, 1500);   // seconde passe : une feuille peut arriver en retard
+            setTimeout(verifier, 1500);
 
-            /* Le mouchard : ?diag=1 */
             if (/[?&]diag=1/.test(location.search)) setTimeout(function () {
-                var lignes = ['PAGE : ' + location.pathname.split('/').pop()];
-                document.querySelectorAll('link[rel="stylesheet"]').forEach(function (l) {
-                    lignes.push('lien  ' + l.getAttribute('href'));
-                });
+                var lignes = ['PAGE : ' + location.pathname.split('/').pop() + '  (' + document.documentElement.outerHTML.length + ' octets de HTML)'];
+                feuilles().forEach(function (n) { lignes.push('feuille ' + n + ' → témoin = ' + (temoin(n) || 'ABSENT')); });
                 for (var i = 0; i < document.styleSheets.length; i++) {
                     var f = document.styleSheets[i], nb;
                     try { nb = f.cssRules.length + ' règles'; } catch (e) { nb = 'INACCESSIBLE'; }
                     lignes.push('chargée ' + ((f.href || 'dans la page').split('/').pop()) + ' → ' + nb);
                 }
-                ['common', 'catalog', 'product', 'cart', 'forms', 'home', 'localisation'].forEach(function (n) {
-                    var t = temoin(n); if (t) lignes.push('témoin ' + n + ' = ' + t);
-                });
-                lignes = lignes.concat(journal.length ? journal : ['garde-fou : rien à réparer']);
+                lignes = lignes.concat(journal.length ? journal : ['contrôle : rien à réparer']);
                 var d = document.createElement('div');
                 d.style.cssText = 'position:fixed;inset:auto 10px 10px 10px;z-index:99999;background:#111;color:#0f0;font:12px/1.5 ui-monospace,monospace;padding:12px 14px;border-radius:10px;white-space:pre-wrap;max-height:60vh;overflow:auto';
                 d.textContent = lignes.join('\n');
