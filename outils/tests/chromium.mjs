@@ -85,6 +85,47 @@ for (const [nom, chemin, attentes] of PAGES) {
     }
     await ctx.close();
 }
+// ── Le parcours par CLICS ────────────────────────────────────────────
+// C'est l'angle mort qui a coûté une journée : charger une page par son
+// adresse (page.goto) et y arriver en cliquant sur un lien ne sont pas la
+// même chose. Une navigation « maison » qui ne remplaçait que le <body>
+// donnait des pages sans leurs styles — invisible pour un test qui ne
+// clique jamais.
+{
+    console.log('\n  parcours par clics');
+    const ctx = await navigateur.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await ctx.newPage();
+    const erreurs = [];
+    page.on('pageerror', e => erreurs.push(String(e).slice(0, 80)));
+    await page.goto(BASE + '/index.html', { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(3500);
+    const etapes = [
+        ['Parfums', 'a[href="parfums.html"]', () => getComputedStyle(document.querySelector('.products-grid')).display === 'grid'],
+        ['une fiche produit', 'a[href="produit-parfum.html?id=2"]', () => document.querySelector('.product-detail-img').getBoundingClientRect().height > 300],
+        ['Boissons', 'a[href="boissons.html"]', () => getComputedStyle(document.querySelector('.products-grid')).display === 'grid'],
+        ['Top produits', 'a[href="top-produits.html"]', () => document.querySelectorAll('.top-card').length === 8],
+        ["l'accueil", 'a[href="index.html"]', () => document.querySelector('.header').getBoundingClientRect().height > 30],
+    ];
+    for (const [nom, selecteur, attente] of etapes) {
+        total++;
+        try {
+            // `force` : les bouteilles flottent en permanence (animation
+            // bottle-float), et Playwright refuse de cliquer une cible qui
+            // bouge encore. Le clic reste un vrai clic.
+            await page.click(selecteur, { timeout: 8000, force: true });
+            await page.waitForTimeout(2500);
+            const ok = await page.evaluate(attente);
+            const feuilles = await page.evaluate(() => [].map.call(document.querySelectorAll('style[data-feuille]'), e => e.getAttribute('data-feuille')));
+            if (ok !== true) { rates++; console.log(`   ✗ clic vers ${nom} : la page arrive sans sa mise en page  [feuilles: ${feuilles.join(', ')}]`); }
+            else console.log(`   ✓ clic vers ${nom}  [feuilles: ${feuilles.join(', ')}]`);
+        } catch (e) { rates++; console.log(`   ✗ clic vers ${nom} : ${e.message.slice(0, 70)}`); }
+    }
+    total++;
+    if (erreurs.length) { rates++; console.log('   ✗ aucune erreur JavaScript pendant le parcours  [' + [...new Set(erreurs)].join(', ') + ']'); }
+    else console.log('   ✓ aucune erreur JavaScript pendant le parcours');
+    await ctx.close();
+}
+
 await navigateur.close();
 console.log(`\n${total - rates}/${total} vérifications passées${rates ? ` — ${rates} ÉCHEC(S)` : ''}`);
 process.exit(rates ? 1 : 0);

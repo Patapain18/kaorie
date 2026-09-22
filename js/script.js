@@ -1268,125 +1268,29 @@ if (document.readyState === 'loading') {
 
 
 /* ======================================================================
-   22. HELPER — SCRIPTS INLINE
-   Recrée les <script> lors du SPA-lite pour qu'ils s'exécutent
+   22-23. NAVIGATION — RETIRÉE LE 22/09/2026
+   Il y avait ici une navigation « maison » : un écouteur attrapait tous
+   les clics sur les liens internes et, au lieu de laisser le navigateur
+   changer de page, allait chercher la nouvelle page en fetch pour n'en
+   recopier que le <body>. Le <head> n'était jamais touché.
+
+   Conséquence : une page atteinte par un CLIC recevait le contenu de la
+   nouvelle page mais gardait les styles de la précédente. Le catalogue
+   arrivait sans sa grille, la fiche produit sans sa mise en page,
+   l'accueil sans son en-tête. Une page ouverte directement (adresse
+   tapée, rechargement) était correcte : de là l'impression d'un bug
+   capricieux, qui a coûté une journée à diagnostiquer.
+
+   Elle apportait un seul avantage — la musique de fond ne se coupait pas
+   entre deux pages — et la musique n'existe plus dans cette version.
+   Trois autres défauts venaient avec : le script d'une fiche produit
+   redéclarait ses constantes au deuxième passage (erreur JavaScript),
+   les formulaires repassaient en GET (le mot de passe se retrouvait dans
+   l'adresse), et les écouteurs clavier s'empilaient à chaque page.
+
+   Les liens sont donc redevenus de vrais liens : chaque page arrive
+   entière, avec ses styles et son script propre.
    =================================================================== */
-
-function appendInlineScript(oldScript) {
-    const newScript = document.createElement('script');
-    Array.from(oldScript.attributes).forEach(attr =>
-        newScript.setAttribute(attr.name, attr.value)
-    );
-    newScript.textContent = oldScript.textContent;
-    document.body.appendChild(newScript);
-}
-
-async function navigateTo(href, pushState = true) {
-    try {
-        const response = await fetch(href);
-        if (!response.ok) throw new Error('fetch ' + response.status);
-        const html = await response.text();
-        const newDoc = new DOMParser().parseFromString(html, 'text/html');
-
-        if (pushState) history.pushState({}, '', href);
-
-        document.title = newDoc.title;
-        document.body.className = newDoc.body.className;
-
-        document.documentElement.style.backgroundColor = '';
-
-        const preserveIds = ['bg-music', 'cart-drawer', 'cart-backdrop'];
-        Array.from(document.body.children).forEach(child => {
-            if (!preserveIds.includes(child.id)) child.remove();
-        });
-
-        newDoc.body.querySelector('#loader')?.remove();
-
-        Array.from(newDoc.body.children).forEach(child => {
-            
-            if (preserveIds.includes(child.id)) return;
-
-            if (child.tagName === 'SCRIPT') {
-                
-                if (child.src && child.src.includes('script.js')) return;
-                appendInlineScript(child);
-                return;
-            }
-
-            const clone = child.cloneNode(true);
-            document.body.appendChild(clone);
-
-            clone.querySelectorAll('script').forEach(oldScript => {
-                if (oldScript.src && oldScript.src.includes('script.js')) return;
-                appendInlineScript(oldScript);
-                oldScript.remove();
-            });
-        });
-
-        setupCartDrawerHandlers();
-        setupEngravingHandlers();      
-        initProductClickTracking();
-        renderTopProducts();
-        initThemeTabs();              
-        initSearch();
-        initBurgerMenu();
-        initMusicPlayer();
-        updateCartCount();
-
-        window.scrollTo(0, 0);
-    } catch (e) {
-        
-        console.warn('Nav SPA échouée, fallback navigation classique :', e);
-        location.href = href;
-    }
-}
-
-
-/* ======================================================================
-   23. NAVIGATION SPA-LITE
-   Swap du <body> via fetch — musique non coupée entre pages (Mathis)
-   =================================================================== */
-
-function initSeamlessNav() {
-    if (initSeamlessNav.wired) return;
-    initSeamlessNav.wired = true;
-
-    document.addEventListener('click', (e) => {
-        
-        if (e.defaultPrevented) return;
-
-        const link = e.target.closest('a[href]');
-        if (!link) return;
-
-        const href = link.getAttribute('href');
-        if (!href || href.startsWith('#') || href.startsWith('javascript:') ||
-            href.startsWith('mailto:') || href.startsWith('tel:')) return;
-        if (link.target === '_blank') return;
-
-        let url;
-        try { url = new URL(link.href, location.href); }
-        catch { return; }
-
-        if (url.origin !== location.origin) return;
-        
-        if (!url.pathname.endsWith('.html') && url.pathname !== '/') return;
-        
-        if (url.href === location.href) return;
-
-        e.preventDefault();
-        navigateTo(url.href);
-    });
-
-    window.addEventListener('popstate', () => {
-        navigateTo(location.href, false);
-    });
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSeamlessNav);
-} else {
-    initSeamlessNav();
-}
 
 
 /* ======================================================================
