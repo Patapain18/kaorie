@@ -22,7 +22,7 @@ Détail qui compte : dans `css/x.css`, une image s'écrit `../images/y.png`
 (un cran au-dessus du dossier css). Une fois le CSS dans une page posée à
 la racine, ce chemin doit devenir `images/y.png` — le script s'en charge.
 """
-import pathlib, re, sys
+import pathlib, re, sys, datetime
 
 ICI = pathlib.Path(__file__).parent.parent
 DEBUT = '<!-- feuille:{nom} -->'
@@ -56,7 +56,27 @@ def poser(page):
     page.write_text(s, encoding='utf-8')
     return noms
 
+def marquer_version(version):
+    """Écrit la version du site dans `version.txt` et dans chaque page.
+
+    À quoi ça sert : un navigateur peut resservir une vieille copie d'une
+    page, complète et cohérente — impossible à distinguer de l'intérieur.
+    Chaque page porte donc sa version, et demande au serveur celle du
+    moment (`version.txt`, jamais mise en cache). Si les deux diffèrent,
+    la page sait qu'elle est périmée et se redemande."""
+    (ICI / 'version.txt').write_text(version + '\n', encoding='utf-8')
+    for page in sorted(ICI.glob('*.html')):
+        s = page.read_text(encoding='utf-8')
+        if '<meta name="version"' in s:
+            s = re.sub(r'<meta name="version" content="[^"]*">', f'<meta name="version" content="{version}">', s)
+        else:
+            s = s.replace('<meta name="viewport"', f'<meta name="version" content="{version}">\n    <meta name="viewport"', 1)
+        page.write_text(s, encoding='utf-8')
+
 if __name__ == '__main__':
     for page in sorted(ICI.glob('*.html')):
         noms = poser(page)
         print(f'{page.name:24} {", ".join(noms) if noms else "aucune feuille"}')
+    version = datetime.datetime.now().strftime('%Y-%m-%d-%H%M')
+    marquer_version(version)
+    print(f'\nversion du site : {version}  (version.txt + les douze pages)')

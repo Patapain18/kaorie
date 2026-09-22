@@ -60,3 +60,10 @@ Le script recopie le contenu à jour dans les douze pages, entre les repères
 `<!-- feuille:nom -->` et `<!-- /feuille:nom -->`, et corrige au passage les
 chemins d'images (`../images/…` devient `images/…`, puisque la page est à la
 racine et non dans `css/`).
+
+Il **marque aussi la version du site** : l'heure de son passage, écrite dans
+`version.txt` et dans chaque page. C'est ce qui permet à une page de savoir
+qu'elle est périmée — elle demande au serveur la version du moment (un
+fichier qu'on interdit de mettre en cache), la compare à la sienne, et se
+redemande si elles diffèrent. À lancer donc **avant chaque publication**,
+même si aucun CSS n'a bougé.

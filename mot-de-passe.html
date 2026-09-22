@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="version" content="2026-09-22-1437">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mot de passe oublié — Kaorie</title>
     <link rel="icon" href="images/logo.png?v=20260922">
@@ -1579,6 +1580,22 @@ body.cookies-refused .footer-nav {
                 absentes.forEach(function (n) { if (!reparees[n]) redemanderLaFeuille(n); });
                 if (derniere && (absentes.length || /[?&]diag=1/.test(location.search))) etatDesLieux();
             }
+
+            /* Une vieille copie de la page peut être complète et cohérente :
+               rien, de l'intérieur, ne permet de la distinguer de la bonne.
+               On demande donc au serveur la version du moment — un petit
+               fichier qu'on interdit de mettre en cache — et on la compare
+               à celle inscrite dans la page. */
+            fetch('version.txt', { cache: 'no-store' })
+                .then(function (r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); })
+                .then(function (v) {
+                    var serveur = v.trim();
+                    var ici = (document.querySelector('meta[name="version"]') || {}).content || '';
+                    if (!serveur || !ici || serveur === ici) return;
+                    journal.push('page du ' + ici + ', le serveur en est au ' + serveur);
+                    redemanderLaPage();
+                })
+                .catch(function () { /* hors ligne, ou ouvert depuis un fichier : tant pis */ });
 
             if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { verifier(false); });
             else verifier(false);
