@@ -1,0 +1,6 @@
+.DS_Store
+# les rendus bruts de Blender (10 Mo, se refont en cinq minutes)
+outils/rendus/
+__pycache__/
+# les pages intermédiaires des étiquettes (se refont)
+outils/etiquettes/sortie/*.html

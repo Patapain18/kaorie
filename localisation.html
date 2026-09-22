@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localisation — Kaorie</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/localisation.css">
+    <script>
+        if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+            sessionStorage.removeItem('kaorieLoaded');
+            if (!location.pathname.endsWith('index.html') && location.pathname !== '/') {
+                location.replace('index.html');
+            }
+        }
+        if(sessionStorage.getItem("kaorieLoaded"))document.documentElement.classList.add("loader-skip");
+        else document.documentElement.classList.add("loader-active");
+    </script>
+</head>
+<body>
+    
+    
+    <!-- ============================================================
+         AUDIO DE FOND (Aria Math)
+         ============================================================ -->
+    
+    
+    <!-- ============================================================
+         LOADER D'INTRO
+         ============================================================ -->
+    <div class="loader-screen" id="loader">
+        <span class="loader-sparkle ls1">✦</span>
+        <span class="loader-sparkle ls2">✦</span>
+        <span class="loader-sparkle ls3">✦</span>
+        <span class="loader-sparkle ls4">✦</span>
+        <span class="loader-greeting">Bienvenue chez</span>
+        <h1 class="loader-logo" data-text="Kaorie">Kaorie</h1>
+        <span class="loader-tagline">Parfums &amp; Boissons<br>est. 2026</span>
+    </div>
+    
+    <!-- ============================================================
+         BLOBS DÉCORATIFS
+         ============================================================ -->
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+
+    
+    <!-- ============================================================
+         HEADER (navigation principale)
+         ============================================================ -->
+    <header class="header">
+        <div class="header-left">
+            <a href="index.html" class="logo">Kaorie<span>.</span></a>
+            <button class="search-icon" aria-label="Rechercher">&#128269;</button>
+        </div>
+
+        <nav class="header-center">
+            <a href="top-produits.html">Top produits</a>
+            <a href="parfums.html">Parfums</a>
+            <a href="boissons.html">Boissons</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="contact.html" class="contact-btn">Contactez nous</a>
+            <a href="connexion.html" class="icon-btn" aria-label="Compte">&#128100;</a>
+        </div>
+    </header>
+
+    
+    <!-- ============================================================
+         ICÔNE LOCALISATION 📍
+         ============================================================ -->
+    <a href="localisation.html" class="location-icon" aria-label="Localisation">&#128205;</a>
+
+    
+    <!-- ============================================================
+         CONTENU PRINCIPAL (main)
+         ============================================================ -->
+    <main class="main">
+        <h1 class="location-title"><em>Nous contacter</em></h1>
+
+        <div class="map-container">
+            <div class="map-wrapper">
+                <iframe
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=1.32%2C47.58%2C1.36%2C47.60&amp;layer=mapnik&amp;marker=47.59%2C1.34"
+                    title="Carte de la boutique Kaorie"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <aside class="contact-card">
+                <h2 class="contact-card-title">NOUS CONTACTER</h2>
+
+                <div class="contact-section">
+                    <span class="contact-label">Adresse :</span>
+                    <p class="contact-text">
+                        France, Blois,<br>
+                        1 rue Anne de Bretagne,<br>
+                        41000, bureau 78
+                    </p>
+                </div>
+
+                <div class="contact-section">
+                    <span class="contact-label">Suivez-nous :</span>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                        <a href="#" class="social-icon" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+                        <a href="#" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                        <a href="#" class="social-icon" aria-label="Google"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    
+    <!-- ============================================================
+         FOOTER NAV (icônes flottantes)
+         ============================================================ -->
+    <nav class="footer-nav">
+        <a href="index.html" class="icon-btn" aria-label="Accueil"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+    </nav>
+
+    
+    <!-- ============================================================
+         CHARGEMENT DU JS
+         ============================================================ -->
+    <script src="js/script.js"></script>
+
+    
+    <!-- ============================================================
+         MENU BURGER OVERLAY
+         ============================================================ -->
+    <div class="menu-panel" id="menu-panel">
+        <span class="menu-sparkle ms1">✦</span>
+        <span class="menu-sparkle ms2">✦</span>
+        <span class="menu-sparkle ms3">✦</span>
+
+        <button class="menu-close" id="menu-close" aria-label="Fermer le menu">&times;</button>
+
+        <nav class="menu-nav">
+            <a href="top-produits.html">Top produits</a>
+            <a href="parfums.html">Parfums</a>
+            <a href="boissons.html">Boissons</a>
+            <a href="panier.html">Panier</a>
+            <a href="contact.html">Contact</a>
+            <a href="connexion.html">Compte</a>
+        </nav>
+    </div>
+    
+    
+    <!-- ============================================================
+         RECHERCHE DROPDOWN
+         ============================================================ -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-input-wrap">
+            <input type="text" class="search-input" id="search-input"
+                   placeholder="Rechercher un produit..." autocomplete="off">
+        </div>
+        <div class="search-results" id="search-results"></div>
+    </div>
+</body>
+</html>

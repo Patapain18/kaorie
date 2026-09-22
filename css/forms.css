@@ -1,0 +1,120 @@
+
+
+/* ======================================================================
+   1. CONTENEUR FORMULAIRE
+   Boîte cream avec bordure ink et ombre 8px
+   =================================================================== */
+
+.form-container {
+    background: var(--cream);
+    border-radius: var(--radius-md);
+    border: 2px solid var(--ink);
+    box-shadow: 8px 8px 0 0 var(--ink);
+    padding: 45px;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    animation: fadeInUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 38px;
+    font-style: italic;
+}
+
+.form-container .subtitle {
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.form-group { margin-bottom: 20px; }
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-pill);
+    font-size: 15px;
+    font-family: inherit;
+    background: var(--cream-warm);
+    transition: all var(--transition-fast);
+}
+
+.form-group textarea {
+    border-radius: var(--radius-sm);
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    background: var(--cream);
+    box-shadow: 0 0 0 3px var(--peach);
+}
+
+.form-submit {
+    display: block;
+    width: 100%;
+    margin-top: 25px;
+    padding: 16px;
+    background: var(--ink);
+    color: var(--cream);
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all var(--transition);
+}
+
+.form-submit:hover {
+    background: var(--peach);
+    color: var(--ink);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 0 var(--ink);
+}
+
+
+/* ======================================================================
+   5. LIENS DE FORMULAIRE
+   Liens 'Mot de passe oublié' / 'Créer un compte'
+   =================================================================== */
+
+.form-links {
+    text-align: center;
+    margin-top: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-links a {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    transition: color var(--transition-fast);
+}
+
+.form-links a:hover { color: var(--peach-dark); }
+

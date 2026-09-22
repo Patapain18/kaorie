@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription — Kaorie</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <script>
+        if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+            sessionStorage.removeItem('kaorieLoaded');
+            if (!location.pathname.endsWith('index.html') && location.pathname !== '/') {
+                location.replace('index.html');
+            }
+        }
+        if(sessionStorage.getItem("kaorieLoaded"))document.documentElement.classList.add("loader-skip");
+        else document.documentElement.classList.add("loader-active");
+    </script>
+</head>
+<body>
+    
+    
+    <!-- ============================================================
+         AUDIO DE FOND (Aria Math)
+         ============================================================ -->
+    
+    
+    <!-- ============================================================
+         LOADER D'INTRO
+         ============================================================ -->
+    <div class="loader-screen" id="loader">
+        <span class="loader-sparkle ls1">✦</span>
+        <span class="loader-sparkle ls2">✦</span>
+        <span class="loader-sparkle ls3">✦</span>
+        <span class="loader-sparkle ls4">✦</span>
+        <span class="loader-greeting">Bienvenue chez</span>
+        <h1 class="loader-logo" data-text="Kaorie">Kaorie</h1>
+        <span class="loader-tagline">Parfums &amp; Boissons<br>est. 2026</span>
+    </div>
+    
+    <!-- ============================================================
+         BLOBS DÉCORATIFS
+         ============================================================ -->
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+
+    
+    <!-- ============================================================
+         HEADER (navigation principale)
+         ============================================================ -->
+    <header class="header">
+        <div class="header-left">
+            <a href="index.html" class="logo">Kaorie<span>.</span></a>
+            <button class="search-icon" aria-label="Rechercher">&#128269;</button>
+        </div>
+
+        <nav class="header-center">
+            <a href="top-produits.html">Top produits</a>
+            <a href="parfums.html">Parfums</a>
+            <a href="boissons.html">Boissons</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="contact.html" class="contact-btn">Contactez nous</a>
+            <a href="connexion.html" class="icon-btn" aria-label="Compte">&#128100;</a>
+        </div>
+    </header>
+
+    
+    <!-- ============================================================
+         ICÔNE LOCALISATION 📍
+         ============================================================ -->
+    <a href="localisation.html" class="location-icon" aria-label="Localisation">&#128205;</a>
+
+    
+    <!-- ============================================================
+         CONTENU PRINCIPAL (main)
+         ============================================================ -->
+    <main class="main">
+        <form class="form-container" id="signup-form" novalidate>
+            <h2>Vous êtes un <em>nouveau client</em> ?</h2>
+
+            <div class="form-group">
+                <label for="signup-email">Email *</label>
+                <input type="email" id="signup-email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Mot de passe *</label>
+                <input type="password" id="signup-password" name="password" required minlength="6">
+            </div>
+
+            <button type="submit" class="form-submit">Inscription</button>
+        </form>
+    </main>
+
+    
+    <!-- ============================================================
+         FOOTER NAV (icônes flottantes)
+         ============================================================ -->
+    <nav class="footer-nav">
+        <a href="index.html" class="icon-btn" aria-label="Accueil"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+    </nav>
+
+    
+    <!-- ============================================================
+         CHARGEMENT DU JS
+         ============================================================ -->
+    <script src="js/script.js"></script>
+
+    
+    <!-- ============================================================
+         MENU BURGER OVERLAY
+         ============================================================ -->
+    <div class="menu-panel" id="menu-panel">
+        <span class="menu-sparkle ms1">✦</span>
+        <span class="menu-sparkle ms2">✦</span>
+        <span class="menu-sparkle ms3">✦</span>
+
+        <button class="menu-close" id="menu-close" aria-label="Fermer le menu">&times;</button>
+
+        <nav class="menu-nav">
+            <a href="top-produits.html">Top produits</a>
+            <a href="parfums.html">Parfums</a>
+            <a href="boissons.html">Boissons</a>
+            <a href="panier.html">Panier</a>
+            <a href="contact.html">Contact</a>
+            <a href="connexion.html">Compte</a>
+        </nav>
+    </div>
+    
+    
+    <!-- ============================================================
+         RECHERCHE DROPDOWN
+         ============================================================ -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-input-wrap">
+            <input type="text" class="search-input" id="search-input"
+                   placeholder="Rechercher un produit..." autocomplete="off">
+        </div>
+        <div class="search-results" id="search-results"></div>
+    </div>
+</body>
+</html>

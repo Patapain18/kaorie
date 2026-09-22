@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boisson vue produit — Kaorie</title>
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <link rel="stylesheet" href="css/product.css?v=3">
+    <script>
+        if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+            sessionStorage.removeItem('kaorieLoaded');
+            if (!location.pathname.endsWith('index.html') && location.pathname !== '/') {
+                location.replace('index.html');
+            }
+        }
+        if(sessionStorage.getItem("kaorieLoaded"))document.documentElement.classList.add("loader-skip");
+        else document.documentElement.classList.add("loader-active");
+    </script>
+</head>
+<body>
+    <script>
+        (function(){
+            const id = parseInt(new URLSearchParams(window.location.search).get('id')) || 1;
+            const colors = {1:'#ffd9b3', 2:'#d8efa8', 3:'#fff2b3', 4:'#fbcce0'};
+            const color = colors[id] || '#fef6e9';
+            document.documentElement.style.backgroundColor = color;
+            document.body.style.backgroundColor = color;
+            document.body.dataset.product = 'boisson-' + id;
+        })();
+    </script>
+    
+    
+    <!-- ============================================================
+         AUDIO DE FOND (Aria Math)
+         ============================================================ -->
+    
+    
+    <!-- ============================================================
+         LOADER D'INTRO
+         ============================================================ -->
+    <div class="loader-screen" id="loader">
+        <span class="loader-sparkle ls1">✦</span>
+        <span class="loader-sparkle ls2">✦</span>
+        <span class="loader-sparkle ls3">✦</span>
+        <span class="loader-sparkle ls4">✦</span>
+        <span class="loader-greeting">Bienvenue chez</span>
+        <h1 class="loader-logo" data-text="Kaorie">Kaorie</h1>
+        <span class="loader-tagline">Parfums &amp; Boissons<br>est. 2026</span>
+    </div>
+    
+    <!-- ============================================================
+         BLOBS DÉCORATIFS
+         ============================================================ -->
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+
+    
+    <!-- ============================================================
+         HEADER (navigation principale)
+         ============================================================ -->
+    <header class="header">
+        <div class="header-left">
+            <a href="index.html" class="logo">Kaorie<span>.</span></a>
+            <button class="search-icon" aria-label="Rechercher">&#128269;</button>
+        </div>
+
+        <nav class="header-center">
+            <a href="top-produits.html">Top produits</a>
+            <a href="parfums.html">Parfums</a>
+            <a href="boissons.html">Boissons</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="contact.html" class="contact-btn">Contactez nous</a>
+            <a href="connexion.html" class="icon-btn" aria-label="Compte">&#128100;</a>
+        </div>
+    </header>
+
+    
+    <!-- ============================================================
+         ICÔNE LOCALISATION 📍
+         ============================================================ -->
+    <a href="localisation.html" class="location-icon" aria-label="Localisation">&#128205;</a>
+
+    
+    <!-- ============================================================
+         CONTENU PRINCIPAL (main)
+         ============================================================ -->
+    <main class="main product-hero" id="product-main" data-product="boisson-1">
+
+        <div class="bg-sparkles">
+            <span class="bg-sparkle s1">✦</span>
+            <span class="bg-sparkle s2">✦</span>
+            <span class="bg-sparkle s3">✦</span>
+            <span class="bg-sparkle s4">✦</span>
+            <span class="bg-sparkle s5">✦</span>
+            <span class="bg-sparkle s6">✦</span>
+            <span class="bg-sparkle s7">✦</span>
+            <span class="bg-sparkle s8">✦</span>
+        </div>
+<h2 class="product-mega-title" id="product-mega-title">boisson</h2>
+        <div class="product-detail-wrap">
+            
+            <div class="product-thumbnails" id="product-thumbnails">
+                
+            </div>
+
+            <div class="product-detail-carousel">
+                <div class="product-detail-img boisson-1" id="product-image">
+                    <span class="click-tag">click pour ouvrir</span>
+                    <span class="label-name" id="product-title">Boisson</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-description-box">
+            <h2 class="desc-name" id="product-name">Gingembre</h2>
+            <p class="desc-text" id="product-description">
+                Kéfir d'eau pétillant au gingembre frais, BIO et vivant.
+            </p>
+            <div class="desc-price"><span id="product-price">5</span> €</div>
+
+            <div class="size-selector">
+                <span class="size-label">Format :</span>
+                <button class="size-option" data-size="250" data-ratio="0.7">250 ml</button>
+                <button class="size-option active" data-size="500" data-ratio="1">500 ml</button>
+                <button class="size-option" data-size="1000" data-ratio="1.8">1 L</button>
+            </div>
+
+            <div class="product-actions">
+                <button class="favorite-btn" id="favorite-btn" aria-label="Ajouter aux favoris">
+                    <svg viewBox="0 0 24 24" width="22" height="22"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+                <button class="add-to-cart" id="add-cart-btn">Ajouter au panier</button>
+            </div>
+        </div>
+    </main>
+
+    
+    <!-- ============================================================
+         FOOTER NAV (icônes flottantes)
+         ============================================================ -->
+    <nav class="footer-nav">
+        <a href="index.html" class="icon-btn" aria-label="Accueil"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+        <a href="panier.html" class="icon-btn" aria-label="Panier"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></a>
+        <button class="icon-btn" aria-label="Modifier"><svg viewBox="0 0 24 24"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></button>
+    </nav>
+
+    
+    <!-- ============================================================
+         CHARGEMENT DU JS
+         ============================================================ -->
+    <script src="js/script.js"></script>
+    <script>
+        const boissons = [
+            { id: 1, nom: 'Gingembre',       desc: "Kéfir d'eau pétillant au gingembre frais, BIO et vivant.",     prix: 5, img: 'boisson-1' },
+            { id: 2, nom: 'Thé Vert Menthe', desc: "Kéfir d'eau au thé vert et à la menthe fraîche, désaltérant.", prix: 6, img: 'boisson-2' },
+            { id: 3, nom: 'Citron',          desc: "Kéfir d'eau au citron, pauvre en sucre et vivant.",            prix: 5, img: 'boisson-3' },
+            { id: 4, nom: 'Framboise',       desc: "Kéfir d'eau à la framboise, pétillant et fruité.",             prix: 6, img: 'boisson-4' }
+        ];
+        initProductDetail(boissons, 'boisson');
+    </script>
+
+    
+    <!-- ============================================================
+         MENU BURGER OVERLAY
+         ============================================================ -->
+    <div class="menu-panel" id="menu-panel">
+        <span class="menu-sparkle ms1">✦</span>
+        <span class="menu-sparkle ms2">✦</span>
+        <span class="menu-sparkle ms3">✦</span>
+
+        <button class="menu-close" id="menu-close" aria-label="Fermer le menu">&times;</button>
+
+        <nav class="menu-nav">
+            <a href="top-produits.html">Top produits</a>
+            <a href="parfums.html">Parfums</a>
+            <a href="boissons.html">Boissons</a>
+            <a href="panier.html">Panier</a>
+            <a href="contact.html">Contact</a>
+            <a href="connexion.html">Compte</a>
+        </nav>
+    </div>
+    
+    
+    <!-- ============================================================
+         RECHERCHE DROPDOWN
+         ============================================================ -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-input-wrap">
+            <input type="text" class="search-input" id="search-input"
+                   placeholder="Rechercher un produit..." autocomplete="off">
+        </div>
+        <div class="search-results" id="search-results"></div>
+    </div>
+</body>
+</html>

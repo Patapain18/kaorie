@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" width="220" height="220">
+  <!-- Le disque, un peu plus large que haut comme sur le dessin -->
+  <ellipse cx="110" cy="110" rx="100" ry="94" fill="#4cc23b" stroke="#111" stroke-width="5"/>
+  <!-- L'étoile : deux triangles superposés -->
+  <polygon points="110.0,16.9 195.7,156.5 24.3,156.5" fill="#fff59a" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="110.0,203.1 24.3,63.5 195.7,63.5"  fill="#f2d84a" stroke="#111" stroke-width="4" stroke-linejoin="round" fill-opacity="0.92"/>
+  <!-- Le soleil -->
+  <circle cx="110" cy="114" r="56" fill="#f5901e" stroke="#111" stroke-width="4"/>
+  <!-- Les yeux : deux blocs noirs posés haut, avec l'encoche du dessin d'origine -->
+  <rect x="70" y="76" width="27" height="31" rx="6" fill="#111"/>
+  <rect x="123" y="76" width="27" height="31" rx="6" fill="#111"/>
+  <rect x="88" y="76" width="9" height="9" fill="#f5901e"/>
+  <rect x="123" y="76" width="9" height="9" fill="#f5901e"/>
+  <!-- Le sourire : large, blanc, deux rangées de dents -->
+  <path d="M 62 118 Q 110 108 158 118 Q 156 154 110 158 Q 64 154 62 118 Z" fill="#fff" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 66 140 Q 110 136 154 140" fill="none" stroke="#111" stroke-width="3"/>
+  <g stroke="#111" stroke-width="2.5" stroke-linecap="round">
+    <line x1="80" y1="116" x2="81" y2="152"/>
+    <line x1="95" y1="113" x2="95" y2="156"/>
+    <line x1="110" y1="112" x2="110" y2="157"/>
+    <line x1="125" y1="113" x2="125" y2="156"/>
+    <line x1="140" y1="116" x2="139" y2="152"/>
+  </g>
+</svg>

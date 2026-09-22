@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parfum — Kaorie</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/catalog.css">
+    <script>
+        if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+            sessionStorage.removeItem('kaorieLoaded');
+            if (!location.pathname.endsWith('index.html') && location.pathname !== '/') {
+                location.replace('index.html');
+            }
+        }
+        if(sessionStorage.getItem("kaorieLoaded"))document.documentElement.classList.add("loader-skip");
+        else document.documentElement.classList.add("loader-active");
+    </script>
+</head>
+<body class="has-catalog-bg">
+    
+    
+    <!-- ============================================================
+         AUDIO DE FOND (Aria Math)
+         ============================================================ -->
+    
+    
+    <!-- ============================================================
+         LOADER D'INTRO
+         ============================================================ -->
+    <div class="loader-screen" id="loader">
+        <span class="loader-sparkle ls1">✦</span>
+        <span class="loader-sparkle ls2">✦</span>
+        <span class="loader-sparkle ls3">✦</span>
+        <span class="loader-sparkle ls4">✦</span>
+        <span class="loader-greeting">Bienvenue chez</span>
+        <h1 class="loader-logo" data-text="Kaorie">Kaorie</h1>
+        <span class="loader-tagline">Parfums &amp; Boissons<br>est. 2026</span>
+    </div>
+    
+    <!-- ============================================================
+         BLOBS DÉCORATIFS
+         ============================================================ -->
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+
+    
+    <!-- ============================================================
+         HEADER (navigation principale)
+         ============================================================ -->
+    <header class="header">
+        <div class="header-left">
+            <a href="index.html" class="logo">Kaorie<span>.</span></a>
+            <button class="search-icon" aria-label="Rechercher">&#128269;</button>
+        </div>
+
+        <nav class="header-center">
+            <a href="top-produits.html">Top produits</a>
+            <a href="parfums.html">Parfums</a>
+            <a href="boissons.html">Boissons</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="contact.html" class="contact-btn">Contactez nous</a>
+            <a href="connexion.html" class="icon-btn" aria-label="Compte">&#128100;</a>
+        </div>
+    </header>
+
+    
+    <!-- ============================================================
+         ICÔNE LOCALISATION 📍
+         ============================================================ -->
+    <a href="localisation.html" class="location-icon" aria-label="Localisation">&#128205;</a>
+
+    
+    <!-- ============================================================
+         CONTENU PRINCIPAL (main)
+         ============================================================ -->
+    <main class="main">
+        <div class="products-grid bottles-grid">
+            <a href="produit-parfum.html?id=1" class="product-card bottle-card">
+                <span class="click-label">click pour ouvrir</span>
+                <div class="product-img parfum-1">
+                    <span class="product-label bottle-name">Rose Velours</span>
+                </div>
+            </a>
+
+            <a href="produit-parfum.html?id=2" class="product-card bottle-card">
+                <span class="click-label">click pour ouvrir</span>
+                <div class="product-img parfum-2">
+                    <span class="product-label bottle-name">Bois Précieux</span>
+                </div>
+            </a>
+
+            <a href="produit-parfum.html?id=3" class="product-card bottle-card">
+                <span class="click-label">click pour ouvrir</span>
+                <div class="product-img parfum-3">
+                    <span class="product-label bottle-name">Nuit d'Orient</span>
+                </div>
+            </a>
+
+            <a href="produit-parfum.html?id=4" class="product-card bottle-card">
+                <span class="click-label">click pour ouvrir</span>
+                <div class="product-img parfum-4">
+                    <span class="product-label bottle-name">Brise Marine</span>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    
+    <!-- ============================================================
+         FOOTER NAV (icônes flottantes)
+         ============================================================ -->
+    <nav class="footer-nav">
+        <a href="index.html" class="icon-btn" aria-label="Accueil"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+        <a href="panier.html" class="icon-btn" aria-label="Panier"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></a>
+    </nav>
+
+    
+    <!-- ============================================================
+         CHARGEMENT DU JS
+         ============================================================ -->
+    <script src="js/script.js"></script>
+
+    
+    <!-- ============================================================
+         MENU BURGER OVERLAY
+         ============================================================ -->
+    <div class="menu-panel" id="menu-panel">
+        <span class="menu-sparkle ms1">✦</span>
+        <span class="menu-sparkle ms2">✦</span>
+        <span class="menu-sparkle ms3">✦</span>
+
+        <button class="menu-close" id="menu-close" aria-label="Fermer le menu">&times;</button>
+
+        <nav class="menu-nav">
+            <a href="top-produits.html">Top produits</a>
+            <a href="parfums.html">Parfums</a>
+            <a href="boissons.html">Boissons</a>
+            <a href="panier.html">Panier</a>
+            <a href="contact.html">Contact</a>
+            <a href="connexion.html">Compte</a>
+        </nav>
+    </div>
+    
+    
+    <!-- ============================================================
+         RECHERCHE DROPDOWN
+         ============================================================ -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-input-wrap">
+            <input type="text" class="search-input" id="search-input"
+                   placeholder="Rechercher un produit..." autocomplete="off">
+        </div>
+        <div class="search-results" id="search-results"></div>
+    </div>
+</body>
+</html>
