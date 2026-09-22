@@ -17,7 +17,7 @@
         else document.documentElement.classList.add("loader-active");
     </script>
 </head>
-<body>
+<body class="has-video">
     
     
     <!-- ============================================================
@@ -38,12 +38,12 @@
         <span class="loader-tagline">Parfums &amp; Boissons<br>est. 2026</span>
     </div>
 
-    <!-- La vidéo de fond de la version d'origine (un extrait sous droits) est
-         retirée de cette version publique : l'accueil reprend le fond des
-         autres pages, crème et taches de couleur flottantes. -->
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
+    <!-- La vidéo de fond : sept plans de faune tropicale (Pexels, montage
+         dans outils/video), en boucle, muette. Le poster est sa première image. -->
+    <video class="video-bg" autoplay muted loop playsinline poster="video/accueil.jpg" preload="auto">
+        <source src="video/kaorie.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
 
     
     <!-- ============================================================

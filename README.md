@@ -15,5 +15,7 @@ Site : https://patapain18.github.io/kaorie/
 La version d'origine utilisait une musique d'ambiance, une vidéo de fond,
 une photo de lac et des photos de produits du commerce dont les droits ne
 nous appartenaient pas. Tout cela est retiré de cette version publique : les
-huit bouteilles sont désormais modelées et rendues par nous, dans Blender
-(voir `outils/README.md`). Le code, l'identité et le reste sont intacts.
+huit bouteilles sont modelées et rendues par nous, dans Blender (voir
+`outils/README.md`), et la vidéo de l'accueil est un montage de plans
+libres de Pexels (sources dans `outils/video/README.md`). Le code,
+l'identité et le reste sont intacts.
