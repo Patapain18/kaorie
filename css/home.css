@@ -38,13 +38,20 @@
 
 .marquee-track .star { color: var(--citron); font-size: 16px; }
 
+/* La vidéo de fond.
+   ⚠️ Pas de z-index négatif ici. Une vidéo en plein écran est confiée à
+   la carte graphique ; si on lui demande en plus de passer « derrière
+   tout » (z-index négatif), Safari la remonte par-dessus la page et
+   l'accueil n'affiche plus que la vidéo — le menu et le contenu
+   disparaissent. On la pose donc au plancher (0), le voile juste
+   au-dessus (1), et tout le reste de la page passe devant. */
 .video-bg {
     position: fixed;
     inset: 0;
     width: 100vw;
     height: 100vh;
     object-fit: cover;
-    z-index: -2;
+    z-index: 0;
     pointer-events: none;
 }
 
@@ -54,12 +61,22 @@
     background:
         linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.3) 100%),
         radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.15) 100%);
-    z-index: -1;
+    z-index: 1;
     pointer-events: none;
 }
 
 body.has-video { background: transparent; }
 body.has-video .blob { display: none; }
+
+/* Tout ce qui doit rester visible par-dessus la vidéo. Le contenu de la
+   page n'était pas positionné : sans `position`, un z-index ne compte
+   pas. Et `translateZ(0)` demande à Safari de confier ces éléments à la
+   carte graphique, comme la vidéo — deux calques qui se comparent, donc
+   un empilement respecté. */
+body.has-video .main { position: relative; z-index: 10; }
+body.has-video .header,
+body.has-video .footer-nav,
+body.has-video .location-icon { transform: translateZ(0); }
 
 .video-bg {
     animation: fadeIn 1.2s 0.3s ease-out both;
