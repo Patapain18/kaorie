@@ -73,6 +73,7 @@ function getProductClicks() {
 }
 
 function trackProductClick(productImg) {
+    if (choixCookies() === 'refuse') return;      // le visiteur a dit non
     const clicks = getProductClicks();
     clicks[productImg] = (clicks[productImg] || 0) + 1;
     localStorage.setItem(CLICKS_KEY, JSON.stringify(clicks));
@@ -236,8 +237,14 @@ function updateCartCount() {
 
 function findCartItemIndex(cart, produit) {
     const grav = (produit.engraving || '').trim();
+    const taille = (produit.taille || '').trim();
+    // Deux lignes ne se confondent que si TOUT correspond : le produit, la
+    // contenance et la gravure. Sans la contenance, un 100 ml ajouté après
+    // un 30 ml venait grossir la ligne du 30 ml — et restait facturé au
+    // prix du 30 ml.
     return cart.findIndex(item =>
         item.img === produit.img &&
+        (item.taille || '').trim() === taille &&
         (item.engraving || '').trim() === grav
     );
 }
@@ -294,6 +301,11 @@ function renderCart() {
         const engravingMarkup = item.engraving
             ? `<span class="cart-item-engraving">« ${item.engraving} »</span>`
             : '';
+        // La contenance distingue deux lignes du même produit : sans elle,
+        // elles sembleraient identiques à des prix différents.
+        const tailleMarkup = item.taille
+            ? `<span class="cart-item-size">${item.taille}</span>`
+            : '';
 
         div.innerHTML = `
             <div class="cart-item-img ${item.img || item.type}"></div>
@@ -301,6 +313,7 @@ function renderCart() {
                 <div>
                     <span class="cart-item-category">${category}</span>
                     <h4>${displayName}</h4>
+                    ${tailleMarkup}
                     ${engravingMarkup}
                     <div class="price">${item.prix} €</div>
                 </div>
@@ -341,10 +354,13 @@ function clearCart() {
     }
 }
 
+/* La croix de la barre du bas, sur la page panier, ferme la page et
+   revient d'où l'on vient. Elle s'appelait « Vider le panier » — nom d'un
+   geste qu'elle ne faisait pas, et qui existe ailleurs (le bouton du même
+   nom, dans le tiroir). Elle s'appelle maintenant ce qu'elle fait. */
 document.addEventListener('click', (e) => {
-    if (e.target.closest('#clear-cart')) {
+    if (e.target.closest('#fermer-panier, #clear-cart')) {
         e.preventDefault();
-        
         if (window.history.length > 1) {
             window.history.back();
         } else {
@@ -1298,15 +1314,34 @@ if (document.readyState === 'loading') {
    Apparait à 1s, 2 cases à cocher, refus = flou (Léa)
    =================================================================== */
 
+const CLEF_COOKIES = 'kaorieCookies';
+
+/** Le choix du visiteur sur les cookies : 'accepte', 'refuse', ou '' s'il
+ *  n'a pas encore répondu. */
+function choixCookies() {
+    try { return localStorage.getItem(CLEF_COOKIES) || ''; }
+    catch (e) { return ''; }        // navigation privée, stockage bloqué
+}
+
+function enregistrerChoixCookies(choix) {
+    try { localStorage.setItem(CLEF_COOKIES, choix); } catch (e) { /* tant pis */ }
+    if (choix === 'refuse') {
+        // Le seul suivi du site, c'est le compteur de clics qui alimente
+        // « Top produits ». Refuser doit l'effacer et l'empêcher, pas
+        // rendre la boutique inutilisable.
+        try { localStorage.removeItem(CLICKS_KEY); } catch (e) { /* tant pis */ }
+    }
+}
+
 function initCookieBanner() {
     const path = location.pathname;
     const isHome = path.endsWith('index.html') || path === '/' || path.endsWith('/');
     if (!isHome) return;
 
-
+    /* Le bandeau ne revient pas harceler quelqu'un qui a déjà répondu. */
+    if (choixCookies()) return;
 
     document.body.classList.remove('cookies-refused');
-
 
     if (document.getElementById('cookie-banner')) return;
 
@@ -1343,6 +1378,7 @@ function initCookieBanner() {
     document.getElementById('cookie-accept').addEventListener('change', (e) => {
         if (!e.target.checked) return;
         document.getElementById('cookie-refuse').checked = false;
+        enregistrerChoixCookies('accepte');
         closeBanner();
     });
 
@@ -1350,7 +1386,10 @@ function initCookieBanner() {
     document.getElementById('cookie-refuse').addEventListener('change', (e) => {
         if (!e.target.checked) return;
         document.getElementById('cookie-accept').checked = false;
-        document.body.classList.add('cookies-refused');
+        /* Refuser ferme le bandeau et coupe le suivi des clics. Le site
+           reste entièrement utilisable : auparavant, tout était flouté et
+           plus rien n'était cliquable — un refus n'a pas à punir. */
+        enregistrerChoixCookies('refuse');
         closeBanner();
     });
 }

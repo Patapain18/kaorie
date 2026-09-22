@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="version" content="2026-09-22-1618">
+    <meta name="version" content="2026-09-22-1626">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compte client — Kaorie</title>
     <link rel="icon" href="images/logo.png?v=20260922">
@@ -862,6 +862,16 @@ html.menu-open, html.menu-open body { overflow: hidden; }
     overflow-y: auto;
 }
 
+/* La contenance d'une ligne du panier (« 50 ml », « 1 L »). C'est elle qui
+   distingue deux lignes du même produit : discrète, mais toujours lue. */
+.cart-item-size {
+    display: block;
+    font: 11px/1.5 'Inter', sans-serif;
+    letter-spacing: 0.04em;
+    color: color-mix(in srgb, var(--ink) 62%, transparent);
+    margin-top: 2px;
+}
+
 .cart-item-engraving {
     display: inline-flex;
     align-items: center;
@@ -1152,23 +1162,10 @@ html.menu-open, html.menu-open body { overflow: hidden; }
     cursor: pointer;
 }
 
-body.cookies-refused .main,
-body.cookies-refused .header,
-body.cookies-refused .footer-nav,
-body.cookies-refused .location-icon,
-body.cookies-refused .video-bg,
-body.cookies-refused .video-overlay,
-body.cookies-refused .hero-bg,
-body.cookies-refused .blob {
-    filter: blur(6px) contrast(0.4) saturate(0.3) brightness(0.8);
-    transition: filter 0.8s ease;
-}
-body.cookies-refused .main,
-body.cookies-refused .header,
-body.cookies-refused .footer-nav {
-    pointer-events: none;        
-    user-select: none;
-}
+/* Le floutage qui suivait un refus des cookies a été retiré le 22/09/2026.
+   Refuser rendait le site inutilisable — tout flou, plus rien de cliquable,
+   et aucun moyen de revenir en arrière. Un refus coupe maintenant le suivi
+   des clics (la seule chose que le site enregistrait) et rien d'autre. */
 
 
 /* ======================================================================
