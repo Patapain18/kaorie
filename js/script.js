@@ -141,19 +141,30 @@ function initThemeTabs() {
    Trie ALL_PRODUCTS par nombre de clics, affiche les 4 premiers avec badges (Mathis)
    =================================================================== */
 
+/** Place d'un produit quand aucun n'a encore été cliqué : parfum 1,
+ *  boisson 1, parfum 2, boisson 2… (le rang vient de l'id, le décalage
+ *  du type, pour alterner les deux familles). */
+function ordreParDefaut(produit) {
+    return produit.id * 2 + (produit.type === 'boisson' ? 1 : 0);
+}
+
 function renderTopProducts() {
     const grid = document.getElementById('top-products-grid');
     if (!grid) return;
 
     const clicks = getProductClicks();
 
+    // Tous les produits, du plus cliqué au moins cliqué. Tant que personne
+    // n'a rien cliqué, le classement reste l'ordre de la liste : on alterne
+    // donc parfum / boisson pour que la page ne montre pas quatre parfums
+    // puis quatre boissons.
     const sorted = [...ALL_PRODUCTS].sort((a, b) => {
-        return (clicks[b.img] || 0) - (clicks[a.img] || 0);
+        const ecart = (clicks[b.img] || 0) - (clicks[a.img] || 0);
+        if (ecart !== 0) return ecart;
+        return ordreParDefaut(a) - ordreParDefaut(b);
     });
 
-    const top4 = sorted.slice(0, 4);
-
-    grid.innerHTML = top4.map((p, i) => `
+    grid.innerHTML = sorted.map((p, i) => `
         <a href="produit-${p.type}.html?id=${p.id}" class="product-card bottle-card top-card">
             <span class="top-rank">#${i + 1}</span>
             <div class="product-img ${p.img}">

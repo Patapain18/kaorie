@@ -92,9 +92,9 @@
    plus haut que l'écran — figer la hauteur rendait le bas de la fiche
    (le bouton « Ajouter au panier ») impossible à atteindre. */
 @media (min-width: 761px) {
-    body.has-catalog-bg,
+    body.has-catalog-bg:not(.has-top-grid),
     body[data-product],
-    html:has(body.has-catalog-bg),
+    html:has(body.has-catalog-bg:not(.has-top-grid)),
     html:has(body[data-product]) {
         overflow: hidden;
         height: 100vh;
@@ -599,6 +599,78 @@ body[data-product="boisson-4"] { background: #fbcce0; }
     100% { transform: scale(1.1); }
 }
 
+
+/* ======================================================================
+   LA FICHE SUR UN TÉLÉPHONE
+   Sur grand écran, la fiche est une composition : le nom du type en
+   filigrane, la bouteille au centre, le texte posé à gauche, les
+   miniatures à droite — tout en absolu. Sur un écran étroit, ces trois
+   blocs se recouvraient (le nom passait sur la bouteille, les miniatures
+   par-dessus). Ici on abandonne la composition : tout se remet dans le
+   fil de la page, image d'abord, puis miniatures, puis le texte.
+   =================================================================== */
+@media (max-width: 760px) {
+    .main.product-hero {
+        display: block;
+        min-height: auto;
+        overflow: visible;
+        padding: 96px 22px 150px;
+    }
+
+    /* Le mot en filigrane (« PARFUM », « BOISSON ») n'a pas la place :
+       il passerait derrière le texte et le rendrait illisible. */
+    .product-mega-title { display: none; }
+
+    .product-detail-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+        max-width: none;
+    }
+    /* Dans le HTML les miniatures précèdent la bouteille (elles sont à
+       droite sur grand écran) : on inverse l'ordre à l'affichage. */
+    .product-detail-carousel { order: 1; gap: 0; }
+    .product-thumbnails {
+        order: 2;
+        position: static;
+        transform: none;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 18px;
+    }
+    .thumb { width: 58px; height: 58px; }
+
+    .product-detail-img {
+        height: 38vh;
+        min-height: 230px;
+        max-height: 330px;
+    }
+
+    .product-description-box {
+        position: static;
+        max-width: 100%;
+        margin: 26px auto 0;
+        gap: 12px;
+        text-align: left;
+    }
+    .desc-name  { font-size: 34px; }
+    .desc-text  { font-size: 15px; line-height: 1.6; max-width: none; }
+    .desc-price { font-size: 30px; }
+
+    .size-selector { margin: 10px 0 14px; gap: 8px; }
+    .size-label { width: 100%; margin-bottom: 2px; }
+
+    /* Le bouton principal prend toute la largeur : c'est le geste de la
+       page, et au pouce une cible large est plus facile à viser. */
+    .product-actions { margin-top: 4px; }
+    .add-to-cart { flex: 1; justify-content: center; width: auto; font-size: 17px; padding: 14px 20px; }
+    .favorite-btn { width: 48px; height: 48px; }
+
+    .bg-sparkle { opacity: 0.22; }
+    .bg-sparkle.s3, .bg-sparkle.s7 { display: none; }
+}
 
 /* ======================================================================
    TÉMOIN DE FIN DE FICHIER

@@ -23,8 +23,15 @@ body.has-catalog-bg .main {
 }
 
 body.has-top-grid .main {
-    padding-top: 140px;   
+    padding-top: 140px;
+    padding-bottom: 170px;
 }
+
+/* Huit produits = deux rangées. Le rang (#1…#8) et le nom sont posés
+   au-dessus de chaque carte : sans cette gouttière, ceux de la deuxième
+   rangée viendraient sur les bouteilles de la première. */
+body.has-top-grid .products-grid { row-gap: 120px; }
+body.has-top-grid .bottle-card .product-img { aspect-ratio: 3 / 4.2; }
 
 .bottles-grid .click-label { display: none; }
 
@@ -201,6 +208,10 @@ body.has-top-grid .main {
 .bottles-grid .bottle-card:nth-child(2) { animation-delay: 0.15s, 0.5s;  }
 .bottles-grid .bottle-card:nth-child(3) { animation-delay: 0.25s, 1s;    }
 .bottles-grid .bottle-card:nth-child(4) { animation-delay: 0.35s, 1.5s;  }
+.bottles-grid .bottle-card:nth-child(5) { animation-delay: 0.45s, 2s;    }
+.bottles-grid .bottle-card:nth-child(6) { animation-delay: 0.55s, 2.5s;  }
+.bottles-grid .bottle-card:nth-child(7) { animation-delay: 0.65s, 3s;    }
+.bottles-grid .bottle-card:nth-child(8) { animation-delay: 0.75s, 3.5s;  }
 
 @keyframes bottle-float {
     0%, 100% { transform: translateY(0); }

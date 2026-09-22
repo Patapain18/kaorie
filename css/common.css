@@ -1335,6 +1335,24 @@ body.cookies-refused .footer-nav {
 }
 
 /* ======================================================================
+   SI LE VISITEUR A DEMANDÉ MOINS D'ANIMATIONS
+   (Réglages système → Accessibilité → Réduire les animations)
+   Vingt et un éléments du site arrivent par une animation en `both` :
+   ils commencent donc invisibles et ne deviennent visibles qu'une fois
+   l'animation jouée. Si quelque chose empêche cette animation, la page
+   paraît vide. Ici on coupe le mouvement mais on garde tout visible.
+   =================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ======================================================================
    TÉMOIN DE FIN DE FICHIER
    Dernière règle de la feuille : elle pose une variable. Le petit script
    en tête de chaque page vérifie que la variable est là ; si elle manque,

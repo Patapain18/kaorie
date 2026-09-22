@@ -8,16 +8,6 @@
     <link rel="stylesheet" href="css/common.css?v=20260922">
     <link rel="stylesheet" href="css/localisation.css?v=20260922">
     <script>
-        /* Au rechargement (F5), on rejoue l'intro — mais on RESTE sur la page.
-           Avant, la page se renvoyait à l'accueil : recharger une fiche
-           produit faisait « disparaître » le produit. */
-        if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
-            sessionStorage.removeItem('kaorieLoaded');
-        }
-        if(sessionStorage.getItem("kaorieLoaded"))document.documentElement.classList.add("loader-skip");
-        else document.documentElement.classList.add("loader-active");
-    </script>
-    <script>
         /* ==============================================================
            GARDE-FOU DES FEUILLES DE STYLE
            Un navigateur peut garder une copie abîmée d'un CSS (vu sur
@@ -57,18 +47,6 @@
          ============================================================ -->
     
     
-    <!-- ============================================================
-         LOADER D'INTRO
-         ============================================================ -->
-    <div class="loader-screen" id="loader">
-        <span class="loader-sparkle ls1">✦</span>
-        <span class="loader-sparkle ls2">✦</span>
-        <span class="loader-sparkle ls3">✦</span>
-        <span class="loader-sparkle ls4">✦</span>
-        <span class="loader-greeting">Bienvenue chez</span>
-        <h1 class="loader-logo" data-text="Kaorie">Kaorie</h1>
-        <span class="loader-tagline">Parfums &amp; Boissons<br>est. 2026</span>
-    </div>
     
     <!-- ============================================================
          BLOBS DÉCORATIFS
