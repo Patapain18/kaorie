@@ -16,6 +16,37 @@
         if(sessionStorage.getItem("kaorieLoaded"))document.documentElement.classList.add("loader-skip");
         else document.documentElement.classList.add("loader-active");
     </script>
+    <script>
+        /* ==============================================================
+           GARDE-FOU DES FEUILLES DE STYLE
+           Un navigateur peut garder une copie abîmée d'un CSS (vu sur
+           Safari : la page s'affiche alors sans mise en page). Chaque
+           feuille se termine par une variable témoin `--feuille-<nom>` ;
+           on vérifie ici qu'elle est bien là, et sinon on redemande la
+           feuille au serveur sous une adresse neuve (?r=…), ce qui
+           contourne la copie abîmée.
+           ============================================================== */
+        (function () {
+            var reparees = {};
+            function verifier() {
+                var racine = document.documentElement;
+                document.querySelectorAll('link[rel="stylesheet"][href*="css/"]').forEach(function (lien) {
+                    var nom = lien.getAttribute('href').split('/').pop().split('.')[0];
+                    if (reparees[nom]) return;                       // déjà rechargée
+                    var temoin = getComputedStyle(racine).getPropertyValue('--feuille-' + nom).trim();
+                    if (temoin === 'ok') return;                     // la feuille est entière
+                    reparees[nom] = true;
+                    var neuf = document.createElement('link');
+                    neuf.rel = 'stylesheet';
+                    neuf.href = 'css/' + nom + '.css?r=' + Date.now();
+                    document.head.appendChild(neuf);
+                });
+            }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', verifier);
+            else verifier();
+            setTimeout(verifier, 1500);    // seconde passe : une feuille peut arriver en retard
+        })();
+    </script>
 </head>
 <body class="has-catalog-bg">
     

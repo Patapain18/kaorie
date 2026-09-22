@@ -1297,3 +1297,13 @@ body.cookies-refused .footer-nav {
     .arrow-nav { width: 50px; height: 50px; }
     .form-container { padding: 30px 25px; }
 }
+
+
+/* ======================================================================
+   TÉMOIN DE FIN DE FICHIER
+   Dernière règle de la feuille : elle pose une variable. Le petit script
+   en tête de chaque page vérifie que la variable est là ; si elle manque,
+   c'est que le navigateur n'a pas la feuille en entier, et il la recharge.
+   Ne rien écrire après cette règle.
+   =================================================================== */
+:root { --feuille-common: ok; }
