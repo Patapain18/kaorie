@@ -10,32 +10,77 @@
     <script>
         /* ==============================================================
            GARDE-FOU DES FEUILLES DE STYLE
-           Un navigateur peut garder une copie abîmée d'un CSS (vu sur
-           Safari : la page s'affiche alors sans mise en page). Chaque
-           feuille se termine par une variable témoin `--feuille-<nom>` ;
-           on vérifie ici qu'elle est bien là, et sinon on redemande la
-           feuille au serveur sous une adresse neuve (?r=…), ce qui
-           contourne la copie abîmée.
+           Un navigateur peut garder une copie inutilisable d'un CSS et la
+           resservir à chaque visite (vu sur Safari : la page s'affiche
+           alors sans mise en page). Chaque feuille se termine par une
+           variable témoin `--feuille-<nom>`. Si le témoin manque :
+             1. on redemande la feuille avec fetch(..., cache: 'reload'),
+                qui court-circuite le cache du navigateur, et on pose son
+                contenu directement dans la page ;
+             2. si fetch échoue, on retente avec un simple lien sous une
+                adresse neuve.
+           Ajouter ?diag=1 à l'adresse affiche ce que le navigateur a
+           réellement chargé — pratique pour comprendre un affichage raté.
            ============================================================== */
         (function () {
-            var reparees = {};
+            var reparees = {}, journal = [];
+            function nomDe(lien) { return lien.getAttribute('href').split('/').pop().split('.')[0]; }
+            function temoin(nom) { return getComputedStyle(document.documentElement).getPropertyValue('--feuille-' + nom).trim(); }
+
+            function reparer(nom) {
+                reparees[nom] = true;
+                var adresse = 'css/' + nom + '.css?r=' + Date.now();
+                journal.push(nom + ' : témoin absent → on redemande ' + adresse);
+                fetch(adresse, { cache: 'reload' })
+                    .then(function (r) { return r.ok ? r.text() : Promise.reject('HTTP ' + r.status); })
+                    .then(function (css) {
+                        var style = document.createElement('style');
+                        style.setAttribute('data-feuille', nom);
+                        style.textContent = css;
+                        document.head.appendChild(style);
+                        journal.push(nom + ' : rechargée (' + Math.round(css.length / 1024) + ' Ko) et posée dans la page');
+                    })
+                    .catch(function (e) {
+                        journal.push(nom + ' : fetch impossible (' + e + '), on retente par un lien');
+                        var neuf = document.createElement('link');
+                        neuf.rel = 'stylesheet';
+                        neuf.href = adresse;
+                        document.head.appendChild(neuf);
+                    });
+            }
+
             function verifier() {
-                var racine = document.documentElement;
                 document.querySelectorAll('link[rel="stylesheet"][href*="css/"]').forEach(function (lien) {
-                    var nom = lien.getAttribute('href').split('/').pop().split('.')[0];
-                    if (reparees[nom]) return;                       // déjà rechargée
-                    var temoin = getComputedStyle(racine).getPropertyValue('--feuille-' + nom).trim();
-                    if (temoin === 'ok') return;                     // la feuille est entière
-                    reparees[nom] = true;
-                    var neuf = document.createElement('link');
-                    neuf.rel = 'stylesheet';
-                    neuf.href = 'css/' + nom + '.css?r=' + Date.now();
-                    document.head.appendChild(neuf);
+                    var nom = nomDe(lien);
+                    if (reparees[nom] || temoin(nom) === 'ok') return;
+                    reparer(nom);
                 });
             }
+
             if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', verifier);
             else verifier();
-            setTimeout(verifier, 1500);    // seconde passe : une feuille peut arriver en retard
+            setTimeout(verifier, 1500);   // seconde passe : une feuille peut arriver en retard
+
+            /* Le mouchard : ?diag=1 */
+            if (/[?&]diag=1/.test(location.search)) setTimeout(function () {
+                var lignes = ['PAGE : ' + location.pathname.split('/').pop()];
+                document.querySelectorAll('link[rel="stylesheet"]').forEach(function (l) {
+                    lignes.push('lien  ' + l.getAttribute('href'));
+                });
+                for (var i = 0; i < document.styleSheets.length; i++) {
+                    var f = document.styleSheets[i], nb;
+                    try { nb = f.cssRules.length + ' règles'; } catch (e) { nb = 'INACCESSIBLE'; }
+                    lignes.push('chargée ' + ((f.href || 'dans la page').split('/').pop()) + ' → ' + nb);
+                }
+                ['common', 'catalog', 'product', 'cart', 'forms', 'home', 'localisation'].forEach(function (n) {
+                    var t = temoin(n); if (t) lignes.push('témoin ' + n + ' = ' + t);
+                });
+                lignes = lignes.concat(journal.length ? journal : ['garde-fou : rien à réparer']);
+                var d = document.createElement('div');
+                d.style.cssText = 'position:fixed;inset:auto 10px 10px 10px;z-index:99999;background:#111;color:#0f0;font:12px/1.5 ui-monospace,monospace;padding:12px 14px;border-radius:10px;white-space:pre-wrap;max-height:60vh;overflow:auto';
+                d.textContent = lignes.join('\n');
+                document.body.appendChild(d);
+            }, 2500);
         })();
     </script>
 </head>
