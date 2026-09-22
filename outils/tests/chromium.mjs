@@ -28,6 +28,7 @@ function trouverChromium() {
 
 const PAGES = [
     ['accueil', '/index.html', [
+        ['la police Fraunces est chargée', () => document.fonts.check('italic 700 24px Fraunces')],
         ['la vidéo est derrière la page', () => getComputedStyle(document.querySelector('.video-bg')).zIndex === '0'],
         ["l'en-tête est visible", () => document.querySelector('.header').getBoundingClientRect().height > 30],
     ]],
@@ -67,11 +68,15 @@ for (const [nom, chemin, attentes] of PAGES) {
     const page = await ctx.newPage();
     const erreurs = [];
     page.on('pageerror', e => erreurs.push(String(e).slice(0, 80)));
+    page.on('response', r => { if (r.status() >= 400) erreurs.push(r.status() + ' ' + r.url().split('?')[0].split('/').slice(-1)[0]); });
+    page.on('requestfailed', r => erreurs.push('échec ' + r.url().split('/').slice(2, 3)[0]));
     await page.goto(BASE + chemin, { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(3500);
     const temoins = await page.evaluate(() => [].map.call(document.querySelectorAll('style[data-feuille]'),
         e => e.getAttribute('data-feuille') + '=' + (getComputedStyle(document.documentElement).getPropertyValue('--feuille-' + e.getAttribute('data-feuille')).trim() || 'ABSENT')));
-    console.log(`  ${nom.padEnd(14)} ${temoins.join('  ')}${erreurs.length ? '  ⚠ ' + erreurs.join(' | ') : ''}`);
+    console.log(`  ${nom.padEnd(14)} ${temoins.join('  ')}${erreurs.length ? '  ⚠ ' + [...new Set(erreurs)].join(' | ') : ''}`);
+    total++; if (erreurs.length) { rates++; console.log('   ✗ aucune erreur réseau ni JavaScript  [' + [...new Set(erreurs)].join(', ') + ']'); }
+    else console.log('   ✓ aucune erreur réseau ni JavaScript');
     for (const [libelle, code] of attentes) {
         total++;
         let ok; try { ok = await page.evaluate(code); } catch (e) { ok = 'erreur: ' + e.message.slice(0, 60); }

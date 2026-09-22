@@ -2,14 +2,20 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="version" content="2026-09-22-1437">
+    <meta name="version" content="2026-09-22-1517">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boisson — Kaorie</title>
     <link rel="icon" href="images/logo.png?v=20260922">
     <!-- feuille:common -->
     <style data-feuille="common">
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Les polices du site : Fraunces (les titres, en italique) et Inter (le texte).
+   ⚠️ L'adresse d'une police variable liste d'abord ses axes, puis une valeur
+   pour CHACUN d'eux. Fraunces en a quatre — opsz, wght, SOFT, WONK — plus
+   l'italique ; l'ancienne adresse n'en donnait que deux (« 9..144,400 »), et
+   Google répondait « 400 : mauvaise demande ». La police n'arrivait donc
+   jamais : tout le site s'affichait avec la police de secours du système. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=Inter:wght@300..700&display=swap');
 
 
 /* ======================================================================

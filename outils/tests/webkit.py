@@ -27,6 +27,7 @@ BASE = (sys.argv[1] if len(sys.argv) > 1 else 'https://patapain18.github.io/kaor
 # écrites en JavaScript qui doivent toutes répondre vrai.
 PAGES = [
     ('accueil',      '/index.html', [
+        ("la police Fraunces est chargée", "document.fonts.check('italic 700 24px Fraunces')"),
         ("la vidéo est derrière la page", "getComputedStyle(document.querySelector('.video-bg')).zIndex === '0'"),
         ("l'en-tête est visible",         "document.querySelector('.header').getBoundingClientRect().height > 30"),
     ]),
