@@ -226,28 +226,28 @@ body.has-top-grid .main {
 
 .parfum-1 {
     background-color: var(--peach);
-    background-image: url('../images/parfum-blanc-cut.png?v=fixall');
+    background-image: url('../images/parfum-blanc-cut.png?v=20260922');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
 .parfum-2 {
     background-color: var(--citron);
-    background-image: url('../images/parfum-jaune-cut.png?v=fixall');
+    background-image: url('../images/parfum-jaune-cut.png?v=20260922');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
 .parfum-3 {
     background-color: var(--lavender);
-    background-image: url('../images/parfum-noir-cut.png?v=fixall');
+    background-image: url('../images/parfum-noir-cut.png?v=20260922');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
 .parfum-4 {
     background-color: #a8c7d8;  
-    background-image: url('../images/parfum-bleu-cut.png?v=fixall');
+    background-image: url('../images/parfum-bleu-cut.png?v=20260922');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -273,28 +273,28 @@ body.has-top-grid .main {
 
 .boisson-1 {
     background-color: var(--orange);
-    background-image: url('../images/boisson-gingembre-cut.png?v=fixall');
+    background-image: url('../images/boisson-gingembre-cut.png?v=20260922');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
 .boisson-2 {
     background-color: #b8d97f;   
-    background-image: url('../images/boisson-menthe-cut.png?v=fixall');
+    background-image: url('../images/boisson-menthe-cut.png?v=20260922');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
 .boisson-3 {
     background-color: var(--citron);
-    background-image: url('../images/boisson-citron-cut.png?v=fixall');
+    background-image: url('../images/boisson-citron-cut.png?v=20260922');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
 .boisson-4 {
     background-color: #f5a3c7;   
-    background-image: url('../images/boisson-framboise-cut.png?v=fixall');
+    background-image: url('../images/boisson-framboise-cut.png?v=20260922');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

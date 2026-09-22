@@ -17,7 +17,10 @@ import pathlib, subprocess, glob, sys
 
 ICI = pathlib.Path(__file__).parent
 SORTIE = ICI / 'sortie'; SORTIE.mkdir(exist_ok=True)
-LOGO = (ICI / 'logo.svg').read_text()
+# Le logo : le dessin d'origine de Mathis et Léa, extrait du premier visuel
+# du flacon blanc (outils/extraire_logo.py), à 2×. Une version vectorisée
+# existe (logo-vecteur.svg) mais Mathis la trouve « trop pro » — on garde le dessin.
+LOGO = f'<img src="file://{ICI / "logo.png"}" alt="">'
 CHROME = sorted(glob.glob('/Users/Mathis/Library/Caches/ms-playwright/chromium_headless_shell-*/chrome-headless-shell-mac-arm64/chrome-headless-shell'))[-1]
 
 POLICES = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,800;1,9..144,700;1,9..144,800&family=Inter:wght@400;500;600;700&display=swap">'
@@ -43,7 +46,7 @@ def page(largeur, hauteur, corps, css):
 <style>
   html, body {{ margin: 0; background: transparent; }}
   body {{ width: {largeur}px; height: {hauteur}px; overflow: hidden; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }}
-  .logo svg {{ display: block; width: 100%; height: 100%; }}
+  .logo img {{ display: block; width: 100%; height: 100%; object-fit: contain; }}
   .u {{ text-transform: none; }}   /* les unités restent en minuscules */
   {css}
 </style></head><body>{corps}</body></html>'''

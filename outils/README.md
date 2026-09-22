@@ -12,8 +12,12 @@ gamme.
 
 ## La chaîne
 
-1. `etiquettes/logo.svg` — le logo Kaorie redessiné en vecteur d'après le
-   dessin d'origine (disque vert, étoile à six branches, soleil qui sourit).
+1. `extraire_logo.py` — le logo Kaorie est le dessin d'origine de Mathis et
+   Léa ; il n'existait que sur les visuels de la version d'école, ce script
+   le récupère proprement sur le plus grand d'entre eux (contour isolé,
+   remplissage depuis l'extérieur, balance des blancs, sortie à 2× dans
+   `etiquettes/logo.png`). Une version vectorisée existe aussi
+   (`etiquettes/logo-vecteur.svg`), non utilisée : trop lisse, on préfère le dessin.
 2. `etiquettes/etiquettes.py` — écrit une page HTML par étiquette (les vraies
    polices du site, Fraunces et Inter, depuis Google Fonts) et la capture avec
    Chrome headless, fond transparent, à 2×. Sortie : `etiquettes/sortie/`.
