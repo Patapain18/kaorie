@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boisson — Kaorie</title>
+    <link rel="icon" href="images/logo.png?v=20260922">
     <link rel="stylesheet" href="css/common.css?v=20260922">
     <link rel="stylesheet" href="css/catalog.css?v=20260922">
     <script>
+        /* Au rechargement (F5), on rejoue l'intro — mais on RESTE sur la page.
+           Avant, la page se renvoyait à l'accueil : recharger une fiche
+           produit faisait « disparaître » le produit. */
         if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
             sessionStorage.removeItem('kaorieLoaded');
-            if (!location.pathname.endsWith('index.html') && location.pathname !== '/') {
-                location.replace('index.html');
-            }
         }
         if(sessionStorage.getItem("kaorieLoaded"))document.documentElement.classList.add("loader-skip");
         else document.documentElement.classList.add("loader-active");
@@ -92,6 +93,7 @@
         </nav>
 
         <div class="header-right">
+            <button class="icon-btn menu-toggle" id="menu-toggle" aria-label="Menu">&#9776;</button>
             <a href="contact.html" class="contact-btn">Contactez nous</a>
             <a href="connexion.html" class="icon-btn" aria-label="Compte">&#128100;</a>
         </div>

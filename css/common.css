@@ -1298,6 +1298,41 @@ body.cookies-refused .footer-nav {
     .form-container { padding: 30px 25px; }
 }
 
+/* ======================================================================
+   IMAGES DES PRODUITS
+   Une seule définition pour tout le site : la classe du produit
+   (`parfum-1`, `boisson-3`…) porte son image, où qu'elle soit posée —
+   vignette du catalogue, miniature d'une fiche, ligne du panier.
+   C'est ici, dans la feuille chargée par TOUTES les pages, parce que le
+   panier ne charge pas catalog.css : ses vignettes restaient vides.
+   Les couleurs de fond, elles, restent propres à chaque page.
+   =================================================================== */
+.parfum-1, .parfum-2, .parfum-3, .parfum-4,
+.boisson-1, .boisson-2, .boisson-3, .boisson-4 {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.parfum-1  { background-image: url('../images/parfum-blanc-cut.png?v=20260922'); }
+.parfum-2  { background-image: url('../images/parfum-jaune-cut.png?v=20260922'); }
+.parfum-3  { background-image: url('../images/parfum-noir-cut.png?v=20260922'); }
+.parfum-4  { background-image: url('../images/parfum-bleu-cut.png?v=20260922'); }
+.boisson-1 { background-image: url('../images/boisson-gingembre-cut.png?v=20260922'); }
+.boisson-2 { background-image: url('../images/boisson-menthe-cut.png?v=20260922'); }
+.boisson-3 { background-image: url('../images/boisson-citron-cut.png?v=20260922'); }
+.boisson-4 { background-image: url('../images/boisson-framboise-cut.png?v=20260922'); }
+
+
+/* ======================================================================
+   BOUTON DU MENU (petits écrans)
+   La navigation du haut (.header-center) disparaît sous 700 px ; sans ce
+   bouton, le panneau de menu existait dans la page mais rien ne pouvait
+   l'ouvrir — impossible d'aller aux Parfums ou aux Boissons au téléphone.
+   =================================================================== */
+.menu-toggle { display: none; }
+@media (max-width: 700px) {
+    .menu-toggle { display: inline-flex; align-items: center; justify-content: center; font-size: 18px; }
+}
 
 /* ======================================================================
    TÉMOIN DE FIN DE FICHIER

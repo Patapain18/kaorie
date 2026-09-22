@@ -220,37 +220,22 @@ body.has-top-grid .main {
 
 
 /* ======================================================================
-   5. COULEURS & IMAGES DES PRODUITS
-   Background-color + background-image par produit
+   5. COULEURS DES CARTES PRODUIT
+   Une couleur de fond par produit. L'image, elle, vient de common.css
+   (une seule définition pour tout le site, panier compris).
    =================================================================== */
 
 .parfum-1 {
     background-color: var(--peach);
-    background-image: url('../images/parfum-blanc-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 .parfum-2 {
     background-color: var(--citron);
-    background-image: url('../images/parfum-jaune-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 .parfum-3 {
     background-color: var(--lavender);
-    background-image: url('../images/parfum-noir-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 .parfum-4 {
     background-color: #a8c7d8;  
-    background-image: url('../images/parfum-bleu-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
 .bottles-grid .product-img {
@@ -273,31 +258,15 @@ body.has-top-grid .main {
 
 .boisson-1 {
     background-color: var(--orange);
-    background-image: url('../images/boisson-gingembre-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 .boisson-2 {
     background-color: #b8d97f;   
-    background-image: url('../images/boisson-menthe-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 .boisson-3 {
     background-color: var(--citron);
-    background-image: url('../images/boisson-citron-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 .boisson-4 {
     background-color: #f5a3c7;   
-    background-image: url('../images/boisson-framboise-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
 .top-1     { background: var(--peach); }
@@ -439,6 +408,32 @@ body.has-top-grid .main {
     margin: 0 auto;
 }
 
+
+/* ======================================================================
+   PETITS ÉCRANS
+   Cette feuille étant chargée après common.css, sa grille à 4 colonnes
+   l'emportait sur la règle « une colonne » de common.css : au téléphone,
+   les quatre bouteilles se retrouvaient à 80 px de large, leurs noms les
+   uns sur les autres. Deux colonnes, et les noms à leur taille.
+   =================================================================== */
+@media (max-width: 760px) {
+    /* Les noms (et les rangs #1…#4) sont posés AU-DESSUS de chaque carte :
+       il faut donc de la place entre les rangées, sinon le nom d'une
+       bouteille vient sur celle du dessus. */
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 52px 12px; }
+    .bottles-grid.products-grid { gap: 56px 12px; }
+    body.has-top-grid .products-grid { gap: 78px 12px; }
+    .bottles-grid { margin-top: 30px; }
+    .bottle-card .bottle-name { font-size: 13px; top: -24px; letter-spacing: 0; }
+    .top-card .top-rank { font-size: 16px; top: -58px; padding: 4px 12px; }
+    .top-card .bottle-name { top: -26px !important; }
+    body.has-catalog-bg .main { padding-top: 90px; padding-bottom: 150px; }
+    body.has-top-grid .main { padding-top: 110px; }
+}
+
+@media (max-width: 430px) {
+    .bottle-card .bottle-name { font-size: 11px; }
+}
 
 /* ======================================================================
    TÉMOIN DE FIN DE FICHIER

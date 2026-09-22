@@ -87,12 +87,18 @@
 .main.product-hero[data-product="boisson-3"] { --page-bg: #fff2b3; }  
 .main.product-hero[data-product="boisson-4"] { --page-bg: #fbcce0; }  
 
-body.has-catalog-bg,
-body[data-product],
-html:has(body.has-catalog-bg),
-html:has(body[data-product]) {
-    overflow: hidden;
-    height: 100vh;
+/* Sur grand écran la fiche tient dans la fenêtre : on fige la hauteur
+   pour éviter une barre de défilement inutile. En dessous, le contenu est
+   plus haut que l'écran — figer la hauteur rendait le bas de la fiche
+   (le bouton « Ajouter au panier ») impossible à atteindre. */
+@media (min-width: 761px) {
+    body.has-catalog-bg,
+    body[data-product],
+    html:has(body.has-catalog-bg),
+    html:has(body[data-product]) {
+        overflow: hidden;
+        height: 100vh;
+    }
 }
 
 body[data-product] { transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -209,64 +215,11 @@ body[data-product="boisson-4"] { background: #fbcce0; }
 
 .product-detail-img:hover { transform: rotate(-2deg); }
 
-/* ===== Images des produits (vue détaillée + thumbnails) ===== */
-.product-detail-img.boisson-1,
-.thumb.boisson-1 {
-    background-image: url('../images/boisson-gingembre-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.product-detail-img.boisson-2,
-.thumb.boisson-2 {
-    background-image: url('../images/boisson-menthe-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.product-detail-img.boisson-3,
-.thumb.boisson-3 {
-    background-image: url('../images/boisson-citron-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.product-detail-img.boisson-4,
-.thumb.boisson-4 {
-    background-image: url('../images/boisson-framboise-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+/* ===== Images des produits =====
+   Elles ne sont plus ici : les classes `parfum-1`, `boisson-2`… portent
+   leur image dans common.css, la feuille chargée par toutes les pages
+   (sinon le panier, qui ne charge pas catalog.css, restait sans images). */
 
-.product-detail-img.parfum-1,
-.thumb.parfum-1 {
-    background-image: url('../images/parfum-blanc-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.product-detail-img.parfum-2,
-.thumb.parfum-2 {
-    background-image: url('../images/parfum-jaune-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.product-detail-img.parfum-3,
-.thumb.parfum-3 {
-    background-image: url('../images/parfum-noir-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.product-detail-img.parfum-4,
-.thumb.parfum-4 {
-    background-image: url('../images/parfum-bleu-cut.png?v=20260922');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
 
 .product-detail-img .click-tag {
     display: none;          

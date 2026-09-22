@@ -597,12 +597,14 @@ if (resetForm) {
    =================================================================== */
 
 const PRODUCTS = [
-    
+    // ⚠️ Les noms, descriptions et prix doivent rester identiques à ceux
+    // des fiches (produit-parfum.html / produit-boisson.html) : sinon la
+    // recherche annonce un produit et la page en montre un autre.
     {
         name: 'Parfum n°1 — Rose Velours',
         category: 'Parfum',
-        tags: ['rose', 'floral', 'pivoine', 'musqué', 'délicat', 'velours'],
-        desc: 'Une fragrance florale délicate à base de rose, pivoine et musc.',
+        tags: ['rose', 'floral', 'pivoine', 'musc', 'délicat', 'velours'],
+        desc: 'Une fragrance florale délicate, signature de la maison.',
         price: 79, img: 'parfum-1',
         url: 'produit-parfum.html?id=1'
     },
@@ -630,36 +632,36 @@ const PRODUCTS = [
         price: 75, img: 'parfum-4',
         url: 'produit-parfum.html?id=4'
     },
-    
+
     {
-        name: 'Boisson n°1 — Sunset Tonic',
+        name: 'Boisson n°1 — Gingembre',
         category: 'Boisson',
-        tags: ['agrumes', 'gingembre', 'pétillant', 'miel', 'tonic'],
-        desc: 'Un mélange pétillant d\'agrumes et de gingembre frais.',
+        tags: ['kéfir', 'gingembre', 'pétillant', 'bio', 'vivant', 'frais'],
+        desc: "Kéfir d'eau pétillant au gingembre frais, BIO et vivant.",
         price: 5, img: 'boisson-1',
         url: 'produit-boisson.html?id=1'
     },
     {
-        name: 'Boisson n°2 — Verde Fresca',
+        name: 'Boisson n°2 — Thé Vert Menthe',
         category: 'Boisson',
-        tags: ['menthe', 'basilic', 'concombre', 'frais', 'vert'],
-        desc: 'Menthe poivrée, basilic et concombre.',
+        tags: ['kéfir', 'thé vert', 'menthe', 'désaltérant', 'frais', 'vert'],
+        desc: "Kéfir d'eau au thé vert et à la menthe fraîche, désaltérant.",
         price: 6, img: 'boisson-2',
         url: 'produit-boisson.html?id=2'
     },
     {
-        name: 'Boisson n°3 — Amber Spice',
+        name: 'Boisson n°3 — Citron',
         category: 'Boisson',
-        tags: ['curcuma', 'cardamome', 'miel', 'épicé', 'chaud'],
-        desc: 'Curcuma, cardamome et miel de châtaignier.',
-        price: 7, img: 'boisson-3',
+        tags: ['kéfir', 'citron', 'agrumes', 'peu sucré', 'vivant'],
+        desc: "Kéfir d'eau au citron, pauvre en sucre et vivant.",
+        price: 5, img: 'boisson-3',
         url: 'produit-boisson.html?id=3'
     },
     {
-        name: 'Boisson n°4 — Violet Bloom',
+        name: 'Boisson n°4 — Framboise',
         category: 'Boisson',
-        tags: ['cassis', 'fleur', 'violette', 'floral', 'fruit'],
-        desc: 'Cassis et fleur de violette.',
+        tags: ['kéfir', 'framboise', 'fruité', 'pétillant', 'rouge'],
+        desc: "Kéfir d'eau à la framboise, pétillant et fruité.",
         price: 6, img: 'boisson-4',
         url: 'produit-boisson.html?id=4'
     }
