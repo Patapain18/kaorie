@@ -757,10 +757,13 @@ function initSearch() {
         if (matches.length === 0) {
             results.innerHTML = `
                 <div class="search-no-results">
-                    Aucun produit pour « ${q} »<br>
+                    Aucun produit pour « <span class="search-query"></span> »<br>
                     <em>Essaye : parfum, rose, menthe, gingembre…</em>
                 </div>
             `;
+            // Le texte tapé par le visiteur passe par textContent, jamais par
+            // innerHTML : sinon une balise tapée dans la recherche s'exécute.
+            results.querySelector('.search-query').textContent = q;
             return;
         }
 
