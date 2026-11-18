@@ -298,8 +298,10 @@ function renderCart() {
         const div = document.createElement('div');
         div.className = 'cart-item';
         
+        // La gravure est tapée par le visiteur : on pose ici une balise vide, et
+        // le texte arrive plus bas par textContent, jamais par innerHTML.
         const engravingMarkup = item.engraving
-            ? `<span class="cart-item-engraving">« ${item.engraving} »</span>`
+            ? `<span class="cart-item-engraving"></span>`
             : '';
         // La contenance distingue deux lignes du même produit : sans elle,
         // elles sembleraient identiques à des prix différents.
@@ -324,6 +326,7 @@ function renderCart() {
                 </div>
             </div>
         `;
+        if (item.engraving) div.querySelector('.cart-item-engraving').textContent = `« ${item.engraving} »`;
         container.appendChild(div);
     });
 
